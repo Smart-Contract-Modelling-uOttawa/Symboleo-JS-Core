@@ -1,5 +1,3 @@
-'use strict'
-
 export class InternalEvent {
   constructor(source, type, name) {
     this.source = source

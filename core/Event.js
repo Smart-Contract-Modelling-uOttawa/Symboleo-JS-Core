@@ -1,5 +1,3 @@
-'use strict'
-
 export class Event {
 
   constructor ( ) {

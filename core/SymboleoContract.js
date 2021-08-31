@@ -1,5 +1,3 @@
-'use strict'
-
 export class SymboleoContract {
 
   constructor() {

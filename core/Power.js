@@ -1,4 +1,3 @@
-'use strict'
 import { LegalPosition } from "./LegalPosition"
 
 export class Power extends LegalPosition {

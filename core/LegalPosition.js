@@ -1,5 +1,3 @@
-'use strict'
-
 export class LegalPosition {
 
   constructor (name, creditor, debtor, contract) {
