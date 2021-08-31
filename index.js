@@ -7,5 +7,7 @@ export * from './core/SymboleoContract'
 export * from './core/LegalPosition'
 export * from './core/Party'
 export * from './core/Role'
+export * from './core/Predicates'
+export * from './Utils'
 
 // TODO update from java code
