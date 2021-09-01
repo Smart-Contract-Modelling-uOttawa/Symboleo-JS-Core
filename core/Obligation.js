@@ -1,4 +1,4 @@
-import { LegalPosition } from "./LegalPosition"
+import { LegalPosition } from "./LegalPosition.js"
 
 
 export class Obligation extends LegalPosition {

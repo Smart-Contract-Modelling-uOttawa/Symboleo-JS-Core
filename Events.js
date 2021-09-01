@@ -1,4 +1,4 @@
-import { InternalEventSource } from "./core/InternalEvents"
+import { InternalEventSource } from "./core/InternalEvents.js"
 
 export const Events = {
 
