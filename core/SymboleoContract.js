@@ -5,6 +5,7 @@ export class SymboleoContract {
     this.setActiveState(ContractActiveStates.Null)
     this.setState(ContractStates.Form)
     this.obligations = {}
+    this.survivingObligations = {}
     this.powers = {}
   }
 

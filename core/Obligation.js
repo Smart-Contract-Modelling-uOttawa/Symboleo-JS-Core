@@ -3,7 +3,7 @@ import { LegalPosition } from "./LegalPosition.js"
 
 export class Obligation extends LegalPosition {
 
-  constructor(name) {
+  constructor(name, creditor, debtor, contract) {
     super(name, creditor, debtor, contract)
     this.setActiveState(ObligationActiveState.Null)
     this.setState(ObligationState.Start)
