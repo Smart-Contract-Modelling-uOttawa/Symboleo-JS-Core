@@ -1,8 +1,8 @@
 export class InternalEvent {
-  constructor(source, type, name) {
+  constructor(source, type, object) {
     this.source = source
     this.type = type
-    this.name = name
+    this.object = object
   }
 }
 
