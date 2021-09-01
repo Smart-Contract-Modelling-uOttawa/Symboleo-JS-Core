@@ -4,8 +4,8 @@ export class Power extends LegalPosition {
 
   constructor(name, creditor, debtor, contract) {
     super(name, creditor, debtor, contract)
-    this.setPowerActiveState(PowerStateActive.Null)
-    this.setPowerState(PowerState.Start)
+    this.setActiveState(PowerStateActive.Null)
+    this.setState(PowerState.Start)
   }
 
   isInEffect() {
@@ -18,7 +18,7 @@ export class Power extends LegalPosition {
     let aPowerState = this.state
     switch (aPowerState) {
       case PowerState.Start:
-        this.setPowerState(PowerState.Create)
+        this.setState(PowerState.Create)
         wasEventProcessed = true
         break
       default:
@@ -34,7 +34,7 @@ export class Power extends LegalPosition {
     let aPowerState = this.state
     switch (aPowerState) {
       case PowerState.Start:
-        this.setPowerActiveState(PowerStateActive.InEffect)
+        this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -50,7 +50,7 @@ export class Power extends LegalPosition {
     let aPowerState = this.state
     switch (aPowerState) {
       case PowerState.Create:
-        this.setPowerState(PowerState.UnsuccessfulTermination)
+        this.setState(PowerState.UnsuccessfulTermination)
         // this._events.expired = new Event()
         wasEventProcessed = true
         break
@@ -70,7 +70,7 @@ export class Power extends LegalPosition {
     let aPowerState = this.state
     switch (aPowerState) {
       case PowerState.Create:
-        this.setPowerActiveState(PowerStateActive.InEffect)
+        this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -87,7 +87,7 @@ export class Power extends LegalPosition {
     switch (aPowerState) {
       case PowerState.Active:
         this.exitPowerState()
-        this.setPowerState(PowerState.UnsuccessfulTermination)
+        this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -104,7 +104,7 @@ export class Power extends LegalPosition {
     switch (aPowerStateActive) {
       case PowerStateActive.InEffect:
         this.exitPowerState()
-        this.setPowerState(PowerState.SuccessfulTermination)
+        this.setState(PowerState.SuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -122,14 +122,14 @@ export class Power extends LegalPosition {
 
     switch (aStatus) {
       case PowerState.Create:
-        this.setPowerState(PowerState.UnsuccessfulTermination)
+        this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
         break
     }
     switch (aPowerStateActive) {
       case PowerStateActive.InEffect:
         this.exitPowerState()
-        this.setPowerState(PowerState.UnsuccessfulTermination)
+        this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -146,7 +146,7 @@ export class Power extends LegalPosition {
     switch (aPowerStateActive) {
       case PowerStateActive.InEffect:
         this.exitPowerStateActive()
-        this.setPowerActiveState(PowerStateActive.Suspension)
+        this.setActiveState(PowerStateActive.Suspension)
         wasEventProcessed = true
         break
       default:
@@ -163,7 +163,7 @@ export class Power extends LegalPosition {
     switch (aPowerStateActive) {
       case PowerStateActive.Suspension:
         this.exitPowerStateActive()
-        this.setPowerActiveState(PowerStateActive.InEffect)
+        this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -181,14 +181,14 @@ export class Power extends LegalPosition {
     }
   }
 
-  setPowerState(aPowerState) {
+  setState(aPowerState) {
     this.state = aPowerState
 
     // entry actions and do activities
     switch (this.state) {
       case PowerState.Active:
         if (this.activeState == PowerStateActive.Null) {
-          this.setPowerActiveState(PowerStateActive.InEffect)
+          this.setActiveState(PowerStateActive.InEffect)
         }
         break
       case PowerState.SuccessfulTermination:
@@ -203,18 +203,18 @@ export class Power extends LegalPosition {
   exitPowerStateActive() {
     switch (this.activeState) {
       case PowerStateActive.InEffect:
-        this.setPowerActiveState(PowerStateActive.Null)
+        this.setActiveState(PowerStateActive.Null)
         break
       case PowerStateActive.Suspension:
-        this.setPowerActiveState(PowerStateActive.Null)
+        this.setActiveState(PowerStateActive.Null)
         break
     }
   }
 
-  setPowerActiveState(aPowerStateActive) {
+  setActiveState(aPowerStateActive) {
     this.activeState = aPowerStateActive
     if (this.state != PowerState.Active && aPowerStateActive != PowerStateActive.Null) {
-      this.setPowerState(PowerState.Active)
+      this.setState(PowerState.Active)
     }
   }
 

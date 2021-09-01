@@ -35,7 +35,7 @@ export class Obligation extends LegalPosition {
     let aStatus = this.state
     switch (aStatus) {
       case ObligationState.Start:
-        setState(ObligationState.Create)
+        this.setState(ObligationState.Create)
         wasEventProcessed = true
         break
       default:
@@ -51,7 +51,7 @@ export class Obligation extends LegalPosition {
     let aStatus = this.state
     switch (aStatus) {
       case ObligationState.Start:
-        setActiveState(ObligationActiveState.InEffect)
+        this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -122,8 +122,8 @@ export class Obligation extends LegalPosition {
     let aStatus = this.state
     switch (aStatus) {
       case ObligationState.Active:
-        exitStatus()
-        setState(ObligationState.UnsuccessfulTermination)
+        this.exitStatus()
+        this.setState(ObligationState.UnsuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -139,8 +139,8 @@ export class Obligation extends LegalPosition {
     let aStatusActive = this.stateActive
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        exitStatus()
-        setState(ObligationState.Fulfillment)
+        this.exitStatus()
+        this.setState(ObligationState.Fulfillment)
         wasEventProcessed = true
         break
       default:
@@ -156,8 +156,8 @@ export class Obligation extends LegalPosition {
     let aStatusActive = this.stateActive
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        exitStatus()
-        setState(ObligationState.Violation)
+        this.exitStatus()
+        this.setState(ObligationState.Violation)
         wasEventProcessed = true
         break
       default:
@@ -173,8 +173,8 @@ export class Obligation extends LegalPosition {
     let aStatusActive = this.stateActive
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        exitStatusActive()
-        setActiveState(ObligationActiveState.Suspension)
+        this.exitStatusActive()
+        this.setActiveState(ObligationActiveState.Suspension)
         wasEventProcessed = true
         break
       default:
@@ -190,8 +190,8 @@ export class Obligation extends LegalPosition {
     let aStatusActive = this.stateActive
     switch (aStatusActive) {
       case ObligationActiveState.Suspension:
-        exitStatusActive()
-        setActiveState(ObligationActiveState.InEffect)
+        this.exitStatusActive()
+        this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -204,7 +204,7 @@ export class Obligation extends LegalPosition {
   exitStatus() {
     switch (this.state) {
       case ObligationState.Active:
-        exitStatusActive()
+        this.exitStatusActive()
         break
     }
   }
@@ -216,7 +216,7 @@ export class Obligation extends LegalPosition {
     switch (this.state) {
       case ObligationState.Active:
         if (this.stateActive == ObligationActiveState.Null) {
-          setActiveState(ObligationActiveState.InEffect)
+          this.setActiveState(ObligationActiveState.InEffect)
         }
         break
       case ObligationState.Violation:
@@ -233,10 +233,10 @@ export class Obligation extends LegalPosition {
   exitStatusActive() {
     switch (this.stateActive) {
       case ObligationActiveState.InEffect:
-        setActiveState(ObligationActiveState.Null)
+        this.setActiveState(ObligationActiveState.Null)
         break
       case ObligationActiveState.Suspension:
-        setActiveState(ObligationActiveState.Null)
+        this.setActiveState(ObligationActiveState.Null)
         break
     }
   }
@@ -244,7 +244,7 @@ export class Obligation extends LegalPosition {
   setActiveState(aStatusActive) {
     this.stateActive = aStatusActive
     if (this.state != ObligationState.Active && aStatusActive != ObligationActiveState.Null) {
-      setState(ObligationState.Active)
+      this.setState(ObligationState.Active)
     }
   }
 

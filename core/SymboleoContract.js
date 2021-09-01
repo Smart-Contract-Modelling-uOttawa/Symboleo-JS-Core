@@ -2,14 +2,14 @@ export class SymboleoContract {
 
   constructor() {
     this.id = parseInt(Math.random() * 10000000)
-    this.setStatusActive(ContractActiveStates.Null)
-    this.setStatus(ContractStates.Form)
+    this.setActiveState(ContractActiveStates.Null)
+    this.setState(ContractStates.Form)
     this.obligations = {}
     this.powers = {}
   }
 
   isInEffect() {
-    return this.status === ContractStates.Active && this.statusActive === ContractActiveStates.InEffect
+    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.InEffect
   }
 
   addObligation(key, obl) {
@@ -23,10 +23,10 @@ export class SymboleoContract {
   activated() {
     let wasEventProcessed = false
 
-    let aStatus = this.status
+    let aStatus = this.state
     switch (aStatus) {
       case ContractStates.Form:
-        setStatusActive(ContractActiveStates.InEffect)
+        this.setActiveState(ContractActiveStates.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -39,11 +39,11 @@ export class SymboleoContract {
   terminated() {
     let wasEventProcessed = false
 
-    let aStatus = this.status
+    let aStatus = this.state
     switch (aStatus) {
       case ContractStates.Active:
-        exitStatus()
-        setStatus(ContractStates.UnsuccessfulTermination)
+        this.exitStatus()
+        this.setState(ContractStates.UnsuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -56,11 +56,11 @@ export class SymboleoContract {
   rescinded() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.statusActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ContractActiveStates.InEffect:
-        exitStatusActive()
-        setStatusActive(ContractActiveStates.Rescission)
+        this.exitStatusActive()
+        this.setActiveState(ContractActiveStates.Rescission)
         wasEventProcessed = true
         break
       default:
@@ -73,11 +73,11 @@ export class SymboleoContract {
   suspended() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.statusActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ContractActiveStates.InEffect:
         this.exitStatusActive()
-        this.setStatusActive(ContractActiveStates.Suspension)
+        this.setActiveState(ContractActiveStates.Suspension)
         wasEventProcessed = true
         break
       default:
@@ -95,7 +95,7 @@ export class SymboleoContract {
   //   {
   //     case InEffect:
   //       exitStatusActive();
-  //       setStatusActive(StatusActive.Unassign);
+  //       setActiveState(StatusActive.Unassign);
   //       wasEventProcessed = true;
   //       break;
   //     default:
@@ -108,11 +108,11 @@ export class SymboleoContract {
   fulfilledActiveObligations() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.statusActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ContractActiveStates.InEffect:
-        exitStatus()
-        setStatus(ContractStates.SuccessfulTermination)
+        this.exitStatus()
+        this.setState(ContractStates.SuccessfulTermination)
         wasEventProcessed = true
         break
       default:
@@ -124,11 +124,11 @@ export class SymboleoContract {
   resumed() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.statusActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case Suspension:
-        exitStatusActive()
-        setStatusActive(ContractActiveStates.InEffect)
+        this.exitStatusActive()
+        this.setActiveState(ContractActiveStates.InEffect)
         wasEventProcessed = true
         break
       default:
@@ -147,7 +147,7 @@ export class SymboleoContract {
   //   {
   //     case Unassign:
   //       exitStatusActive();
-  //       setStatusActive(StatusActive.InEffect);
+  //       setActiveState(StatusActive.InEffect);
   //       wasEventProcessed = true;
   //       break;
   //     default:
@@ -158,20 +158,20 @@ export class SymboleoContract {
   // }
 
   exitStatus() {
-    switch (this.status) {
+    switch (this.state) {
       case ContractStates.Active:
-        exitStatusActive()
+        this.exitStatusActive()
         break
     }
   }
 
-  setStatus(aStatus) {
-    this.status = aStatus
+  setState(aStatus) {
+    this.state = aStatus
     // entry actions and do activities
-    switch (status) {
+    switch (this.state) {
       case ContractStates.Active:
-        if (this.statusActive == ContractActiveStates.Null) {
-          setStatusActive(ContractActiveStates.InEffect)
+        if (this.activeState == ContractActiveStates.Null) {
+          this.setActiveState(ContractActiveStates.InEffect)
         }
         break
       case ContractStates.SuccessfulTermination:
@@ -184,30 +184,30 @@ export class SymboleoContract {
   }
 
   exitStatusActive() {
-    switch (this.statusActive) {
+    switch (this.activeState) {
       case ContractStates.InEffect:
-        setStatusActive(ContractActiveStates.Null)
+        this.setActiveState(ContractActiveStates.Null)
         break
       case ContractStates.Suspension:
-        setStatusActive(ContractActiveStates.Null)
+        this.setActiveState(ContractActiveStates.Null)
         break
       case ContractStates.Unassign:
-        setStatusActive(ContractActiveStates.Null)
+        this.setActiveState(ContractActiveStates.Null)
         break
       case ContractStates.Rescission:
-        setStatusActive(ContractActiveStates.Null)
+        this.setActiveState(ContractActiveStates.Null)
         break
     }
   }
 
-  setStatusActive(aStatusActive) {
-    this.statusActive = aStatusActive
-    if (this.status != ContractStates.Active && aStatusActive != ContractActiveStates.Null) {
-      this.setStatus(ContractStates.Active)
+  setActiveState(aStatusActive) {
+    this.activeState = aStatusActive
+    if (this.state != ContractStates.Active && aStatusActive != ContractActiveStates.Null) {
+      this.setState(ContractStates.Active)
     }
 
     // entry actions and do activities
-    switch (statusActive) {
+    switch (aStatusActive) {
       case ContractActiveStates.Rescission:
         // delete();
         break
