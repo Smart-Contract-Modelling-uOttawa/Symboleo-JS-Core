@@ -1,6 +1,6 @@
 export const Predicates = {
   happens(e) {
-    return e.hasHappened()
+    return e != null && e.hasHappened()
   },
 
   happensBefore(e, ts) {

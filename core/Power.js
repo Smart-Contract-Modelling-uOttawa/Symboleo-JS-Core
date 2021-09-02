@@ -8,7 +8,7 @@ export class Power extends LegalPosition {
   constructor(name, creditor, debtor, contract) {
     super(name, creditor, debtor, contract)
     this.setActiveState(PowerStateActive.Null)
-    this.setState(PowerState.Start)
+    this.setState(PowerState.Create)
     this._events = {}
   }
 
@@ -16,24 +16,24 @@ export class Power extends LegalPosition {
     return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
   }
 
-  trigerredConditional() {
-    let wasEventProcessed = false
+  // trigerredConditional() {
+  //   let wasEventProcessed = false
 
-    let aPowerState = this.state
-    switch (aPowerState) {
-      case PowerState.Start:
-        this.setState(PowerState.Create)
-        wasEventProcessed = true
-        this._events.Triggered = new Event()
-        this._events.Triggered.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Triggered, this))
-        break
-      default:
-      // Other states do respond to this event
-    }
+  //   let aPowerState = this.state
+  //   switch (aPowerState) {
+  //     case PowerState.Start:
+  //       this.setState(PowerState.Create)
+  //       wasEventProcessed = true
+  //       this._events.Triggered = new Event()
+  //       this._events.Triggered.happen()
+  //       Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Triggered, this))
+  //       break
+  //     default:
+  //     // Other states do respond to this event
+  //   }
 
-    return wasEventProcessed
-  }
+  //   return wasEventProcessed
+  // }
 
   trigerredUnconditional() {
     let wasEventProcessed = false
