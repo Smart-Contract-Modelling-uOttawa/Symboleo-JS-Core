@@ -40,7 +40,7 @@ export class Power extends LegalPosition {
 
     let aPowerState = this.state
     switch (aPowerState) {
-      case PowerState.Start:
+      case PowerState.Create:
         this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
         this._events.Triggered = new Event()

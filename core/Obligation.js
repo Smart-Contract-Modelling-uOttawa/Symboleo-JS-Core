@@ -57,7 +57,7 @@ export class Obligation extends LegalPosition {
 
     let aStatus = this.state
     switch (aStatus) {
-      case ObligationState.Start:
+      case ObligationState.Create:
         this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
         this._events.Triggered = new Event()
