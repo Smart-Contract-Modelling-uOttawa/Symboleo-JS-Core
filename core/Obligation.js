@@ -1,4 +1,7 @@
 import { LegalPosition } from "./LegalPosition.js"
+import { Event } from "./Event.js"
+import { Events } from "../Events.js"
+import { InternalEvent, InternalEventSource, InternalEventType } from "./InternalEvents.js"
 
 
 export class Obligation extends LegalPosition {
@@ -38,6 +41,9 @@ export class Obligation extends LegalPosition {
       case ObligationState.Start:
         this.setState(ObligationState.Create)
         wasEventProcessed = true
+        this._events.Triggered = new Event()
+        this._events.Triggered.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
         break
       default:
       // Other states do respond to this event
@@ -54,6 +60,9 @@ export class Obligation extends LegalPosition {
       case ObligationState.Start:
         this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
+        this._events.Triggered = new Event()
+        this._events.Triggered.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
         break
       default:
       // Other states do respond to this event
@@ -70,6 +79,9 @@ export class Obligation extends LegalPosition {
       case ObligationState.Create:
         this.setState(ObligationState.Discharge)
         wasEventProcessed = true
+        this._events.Expired = new Event()
+        this._events.Expired.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Expired, this))
         break
       default:
       // Other states do respond to this event
@@ -90,6 +102,9 @@ export class Obligation extends LegalPosition {
         this.exitStatus()
         this.setState(ObligationState.Discharge)
         wasEventProcessed = true
+        this._events.Discharged = new Event()
+        this._events.Discharged.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Discharged, this))
         break
       default:
       // Other states do respond to this event
@@ -109,6 +124,9 @@ export class Obligation extends LegalPosition {
       case ObligationState.Create:
         this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
+        this._events.Activated = new Event()
+        this._events.Activated.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this))
         break
       default:
       // Other states do respond to this event
@@ -126,6 +144,9 @@ export class Obligation extends LegalPosition {
         this.exitStatus()
         this.setState(ObligationState.UnsuccessfulTermination)
         wasEventProcessed = true
+        this._events.Terminated = new Event()
+        this._events.Terminated.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Terminated, this))
         break
       default:
       // Other states do respond to this event
@@ -143,6 +164,9 @@ export class Obligation extends LegalPosition {
         this.exitStatus()
         this.setState(ObligationState.Fulfillment)
         wasEventProcessed = true
+        this._events.Fulfilled = new Event()
+        this._events.Fulfilled.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Fulfilled, this))
         break
       default:
       // Other states do respond to this event
@@ -160,6 +184,9 @@ export class Obligation extends LegalPosition {
         this.exitStatus()
         this.setState(ObligationState.Violation)
         wasEventProcessed = true
+        this._events.Violated = new Event()
+        this._events.Violated.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Violated, this))
         break
       default:
       // Other states do respond to this event
@@ -177,6 +204,10 @@ export class Obligation extends LegalPosition {
         this.exitStatusActive()
         this.setActiveState(ObligationActiveState.Suspension)
         wasEventProcessed = true
+        this._events.Suspended = new Event()
+        this._events.Suspended.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Suspended, this))
+
         break
       default:
       // Other states do respond to this event
@@ -194,6 +225,8 @@ export class Obligation extends LegalPosition {
         this.exitStatusActive()
         this.setActiveState(ObligationActiveState.InEffect)
         wasEventProcessed = true
+        this._events.Resumed = new Event()
+        this._events.Resumed.happen()
         break
       default:
       // Other states do respond to this event

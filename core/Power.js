@@ -1,4 +1,7 @@
 import { LegalPosition } from "./LegalPosition.js"
+import { Event } from "./Event.js"
+import { Events } from "../Events.js"
+import { InternalEvent, InternalEventSource, InternalEventType } from "./InternalEvents.js"
 
 export class Power extends LegalPosition {
 
@@ -21,6 +24,9 @@ export class Power extends LegalPosition {
       case PowerState.Start:
         this.setState(PowerState.Create)
         wasEventProcessed = true
+        this._events.Triggered = new Event()
+        this._events.Triggered.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Triggered, this))
         break
       default:
       // Other states do respond to this event
@@ -37,6 +43,9 @@ export class Power extends LegalPosition {
       case PowerState.Start:
         this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
+        this._events.Triggered = new Event()
+        this._events.Triggered.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Triggered, this))
         break
       default:
       // Other states do respond to this event
@@ -45,22 +54,24 @@ export class Power extends LegalPosition {
     return wasEventProcessed
   }
 
-  expired() {
-    let wasEventProcessed = false
+  // expired() {
+  //   let wasEventProcessed = false
 
-    let aPowerState = this.state
-    switch (aPowerState) {
-      case PowerState.Create:
-        this.setState(PowerState.UnsuccessfulTermination)
-        // this._events.expired = new Event()
-        wasEventProcessed = true
-        break
-      default:
-      // Other states do respond to this event
-    }
+  //   let aPowerState = this.state
+  //   switch (aPowerState) {
+  //     case PowerState.Create:
+  //       this.setState(PowerState.UnsuccessfulTermination)
+  //       // this._events.expired = new Event()
+  //       wasEventProcessed = true
+  //       this._events.Expired = new Event()
+  //       this._events.Expired.happen()
+  //       break
+  //     default:
+  //     // Other states do respond to this event
+  //   }
 
-    return wasEventProcessed
-  }
+  //   return wasEventProcessed
+  // }
 
   activated() {
     if (!this.contract.isInEffect()) {
@@ -73,6 +84,9 @@ export class Power extends LegalPosition {
       case PowerState.Create:
         this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
+        this._events.Activated = new Event()
+        this._events.Activated.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Activated, this))
         break
       default:
       // Other states do respond to this event
@@ -90,6 +104,9 @@ export class Power extends LegalPosition {
         this.exitPowerState()
         this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
+        this._events.Terminated = new Event()
+        this._events.Terminated.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Terminated, this))
         break
       default:
       // Other states do respond to this event
@@ -107,6 +124,9 @@ export class Power extends LegalPosition {
         this.exitPowerState()
         this.setState(PowerState.SuccessfulTermination)
         wasEventProcessed = true
+        this._events.Exerted = new Event()
+        this._events.Exerted.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Exerted, this))
         break
       default:
       // Other states do respond to this event
@@ -125,6 +145,9 @@ export class Power extends LegalPosition {
       case PowerState.Create:
         this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
+        this._events.Expired = new Event()
+        this._events.Expired.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Expired, this))
         break
     }
     switch (aPowerStateActive) {
@@ -132,6 +155,8 @@ export class Power extends LegalPosition {
         this.exitPowerState()
         this.setState(PowerState.UnsuccessfulTermination)
         wasEventProcessed = true
+        this._events.Expired = new Event()
+        this._events.Expired.happen()
         break
       default:
       // Other states do respond to this event
@@ -149,6 +174,9 @@ export class Power extends LegalPosition {
         this.exitPowerStateActive()
         this.setActiveState(PowerStateActive.Suspension)
         wasEventProcessed = true
+        this._events.Suspended = new Event()
+        this._events.Suspended.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Suspended, this))
         break
       default:
       // Other states do respond to this event
@@ -166,6 +194,9 @@ export class Power extends LegalPosition {
         this.exitPowerStateActive()
         this.setActiveState(PowerStateActive.InEffect)
         wasEventProcessed = true
+        this._events.Resumed = new Event()
+        this._events.Resumed.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Resumed, this))
         break
       default:
       // Other states do respond to this event

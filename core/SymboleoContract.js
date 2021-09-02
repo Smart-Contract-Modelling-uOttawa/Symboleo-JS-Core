@@ -1,3 +1,7 @@
+import { Event } from "./Event.js"
+import { Events } from "../Events.js"
+import { InternalEvent, InternalEventSource, InternalEventType } from "./InternalEvents.js"
+
 export class SymboleoContract {
 
   constructor() {
@@ -22,6 +26,9 @@ export class SymboleoContract {
       case ContractStates.Form:
         this.setActiveState(ContractActiveStates.InEffect)
         wasEventProcessed = true
+        this._events.Activated = new Event()
+        this._events.Activated.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Activated, this))
         break
       default:
       // Other states do respond to this event
@@ -39,6 +46,9 @@ export class SymboleoContract {
         this.exitStatus()
         this.setState(ContractStates.UnsuccessfulTermination)
         wasEventProcessed = true
+        this._events.Terminated = new Event()
+        this._events.Terminated.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Terminated, this))
         break
       default:
       // Other states do respond to this event
@@ -56,6 +66,9 @@ export class SymboleoContract {
         this.exitStatusActive()
         this.setActiveState(ContractActiveStates.Rescission)
         wasEventProcessed = true
+        this._events.Rescinded = new Event()
+        this._events.Rescinded.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Rescinded, this))
         break
       default:
       // Other states do respond to this event
@@ -73,6 +86,9 @@ export class SymboleoContract {
         this.exitStatusActive()
         this.setActiveState(ContractActiveStates.Suspension)
         wasEventProcessed = true
+        this._events.Suspended = new Event()
+        this._events.Suspended.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Suspended, this))
         break
       default:
       // Other states do respond to this event
@@ -108,6 +124,10 @@ export class SymboleoContract {
         this.exitStatus()
         this.setState(ContractStates.SuccessfulTermination)
         wasEventProcessed = true
+        this._events.FulfilledObligations = new Event()
+        this._events.FulfilledObligations.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.FulfilledObligations, this))
+
         break
       default:
       // Other states do respond to this event
@@ -124,6 +144,9 @@ export class SymboleoContract {
         this.exitStatusActive()
         this.setActiveState(ContractActiveStates.InEffect)
         wasEventProcessed = true
+        this._events.Resumed = new Event()
+        this._events.Resumed.happen()
+        Events.emitEvent(this, new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Resumed, this))
         break
       default:
       // Other states do respond to this event
