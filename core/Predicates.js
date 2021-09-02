@@ -4,26 +4,26 @@ export const Predicates = {
   },
 
   happensBefore(e, ts) {
-    return e.hasHappened() && e.timestamp < ts
+    return Predicates.happens(e) && e.timestamp < ts
   },
 
   happensAfter(e, ts) {
-    return e.hasHappened() && e.timestamp > ts
+    return Predicates.happens(e) && e.timestamp > ts
   },
 
-  happensWitihn(e, arg1, arg2) {
+  happensWithin(e, arg1, arg2) {
     if (typeof arg2 === "string" || arg2 instanceof String){
-      return Predicates.happensWitihnSituation(e, arg1, arg2)
+      return Predicates.happensWithinSituation(e, arg1, arg2)
     } else {
-      return Predicates.happensWitihnDate(e, arg1, arg2)
+      return Predicates.happensWithinDate(e, arg1, arg2)
     }
   },
   
-  happensWitihnSituation(e, object, state) {
+  happensWithinSituation(e, object, state) {
     return e.hasHappened() && object.state === state // TODO should check using methods
   },
 
-  happensWitihnDate(e, start, end) {
+  happensWithinDate(e, start, end) {
     return e.hasHappened() && e.timestamp >= start && e.timestamp <= end
   }
 }

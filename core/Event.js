@@ -7,7 +7,7 @@ export class Event {
 
   happen(event) {
     this.triggered = true
-    this.timestamp = Date.now()
+    this.timestamp = new Date().toISOString()
     this.data = event
   }
 
