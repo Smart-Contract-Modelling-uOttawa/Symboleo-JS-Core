@@ -7,6 +7,7 @@ export class Obligation extends LegalPosition {
     super(name, creditor, debtor, contract)
     this.setActiveState(ObligationActiveState.Null)
     this.setState(ObligationState.Start)
+    this._events = {}
   }
 
   isViolated() {
@@ -14,11 +15,11 @@ export class Obligation extends LegalPosition {
   }
 
   isInEffect() {
-    return this.state === ObligationState.Active && this.stateActive === ObligationActiveState.InEffect
+    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
   }
 
   isSuspended() {
-    return this.state === ObligationState.Active && this.stateActive === ObligationActiveState.Suspension
+    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.Suspension
   }
 
   isFulfilled(){
@@ -136,7 +137,7 @@ export class Obligation extends LegalPosition {
   fulfilled() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.stateActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
         this.exitStatus()
@@ -153,7 +154,7 @@ export class Obligation extends LegalPosition {
   violated() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.stateActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
         this.exitStatus()
@@ -170,7 +171,7 @@ export class Obligation extends LegalPosition {
   suspended() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.stateActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
         this.exitStatusActive()
@@ -187,7 +188,7 @@ export class Obligation extends LegalPosition {
   resumed() {
     let wasEventProcessed = false
 
-    let aStatusActive = this.stateActive
+    let aStatusActive = this.activeState
     switch (aStatusActive) {
       case ObligationActiveState.Suspension:
         this.exitStatusActive()
@@ -215,7 +216,7 @@ export class Obligation extends LegalPosition {
     // entry actions and do activities
     switch (this.state) {
       case ObligationState.Active:
-        if (this.stateActive == ObligationActiveState.Null) {
+        if (this.activeState == ObligationActiveState.Null) {
           this.setActiveState(ObligationActiveState.InEffect)
         }
         break
@@ -231,7 +232,7 @@ export class Obligation extends LegalPosition {
   }
 
   exitStatusActive() {
-    switch (this.stateActive) {
+    switch (this.activeState) {
       case ObligationActiveState.InEffect:
         this.setActiveState(ObligationActiveState.Null)
         break
@@ -242,7 +243,7 @@ export class Obligation extends LegalPosition {
   }
 
   setActiveState(aStatusActive) {
-    this.stateActive = aStatusActive
+    this.activeState = aStatusActive
     if (this.state != ObligationState.Active && aStatusActive != ObligationActiveState.Null) {
       this.setState(ObligationState.Active)
     }

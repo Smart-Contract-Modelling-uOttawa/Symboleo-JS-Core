@@ -7,18 +7,11 @@ export class SymboleoContract {
     this.obligations = {}
     this.survivingObligations = {}
     this.powers = {}
+    this._events = {}
   }
 
   isInEffect() {
     return this.state === ContractStates.Active && this.activeState === ContractActiveStates.InEffect
-  }
-
-  addObligation(key, obl) {
-    this.obligations[key] = obl
-  }
-
-  addPower(key, power) {
-    this.powers[key] = power
   }
 
   activated() {

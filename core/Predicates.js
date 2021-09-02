@@ -20,7 +20,7 @@ export const Predicates = {
   },
   
   happensWitihnSituation(e, object, state) {
-    return e.hasHappened() && object.state === state
+    return e.hasHappened() && object.state === state // TODO should check using methods
   },
 
   happensWitihnDate(e, start, end) {

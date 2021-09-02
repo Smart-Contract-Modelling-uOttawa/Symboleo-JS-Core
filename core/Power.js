@@ -6,10 +6,11 @@ export class Power extends LegalPosition {
     super(name, creditor, debtor, contract)
     this.setActiveState(PowerStateActive.Null)
     this.setState(PowerState.Start)
+    this._events = {}
   }
 
   isInEffect() {
-    return this.state === ObligationState.Active && this.stateActive === ObligationActiveState.InEffect
+    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
   }
 
   trigerredConditional() {
