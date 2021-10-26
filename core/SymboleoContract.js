@@ -12,6 +12,24 @@ export class SymboleoContract {
     this.survivingObligations = {}
     this.powers = {}
     this._events = {}
+    this._roles = []
+    this._parties = []
+    this._assets = []
+  }
+
+  addRole(role){
+    this._roles.push(role)
+    role._contract = this
+  }
+
+  addParty(party){
+    this._parties.push(party)
+    asset._contract = this
+  }
+
+  addAsset(asset){
+    this._assets.push(asset)
+    asset._contract = this
   }
 
   isInEffect() {

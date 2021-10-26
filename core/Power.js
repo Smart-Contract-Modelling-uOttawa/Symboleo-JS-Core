@@ -157,6 +157,7 @@ export class Power extends LegalPosition {
         wasEventProcessed = true
         this._events.Expired = new Event()
         this._events.Expired.happen()
+        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.power, InternalEventType.power.Expired, this))
         break
       default:
       // Other states do respond to this event

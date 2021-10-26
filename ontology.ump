@@ -1,0 +1,107 @@
+class Contract {
+  0..1 -- 0..* Power powers;
+  1 <@>- 2..* LegalPosition legalPositions;
+  1 <@>- 2..* Role roles;
+  1 -- 2..* Party parties;
+  1 -- 0..* Asset assets;
+  status {
+    Form {
+      activated -> InEffect;
+    }
+    Active {
+      InEffect { 
+        rescinded -> Rescission;
+        suspended -> Suspension;
+        revokedParty -> Unassign;
+        fulfilledActiveObligations -> SuccessfulTermination;
+      }
+      Suspension { 
+        resumed -> InEffect;
+      }
+      Unassign { 
+        assignedParty -> InEffect;
+      }
+      final Rescission {}
+      terminated -> UnsuccessfulTermination;
+    }
+    final SuccessfulTermination { }
+    final UnsuccessfulTermination { }
+  }
+}
+
+class Party { }
+
+class Role {
+  1 debtor -- 0..* LegalPosition debt;
+  1 creditor -- 0..* LegalPosition credit;
+  1..* -- 0..1 Party party;
+}
+
+class Asset {
+  * -- * Party owners; //
+  0..1 -- 0..* LegalPosition legalPositions;
+}
+
+class LegalPosition { 
+  * performerOf -- * Party performer;
+  * liableOf -- * Party liable;
+  * rihgtHolderOf -- * Party rightHolder;
+}
+
+class Obligation {
+  isA LegalPosition;
+  status {
+    Start {
+      trigerredConditional -> Create;
+      trigerredUnconditional -> InEffect;
+    }
+    Create {
+      expired -> Discharge;
+      activated -> InEffect;
+    }
+    Active {
+      InEffect { 
+        fulfilled -> Fulfillment;
+        violated -> Violation;
+        suspended -> Suspension;
+        discharged -> Discharge;
+      }
+      Suspension { 
+        resumed -> InEffect;
+      }
+      terminated -> UnsuccessfulTermination;
+    }
+    final Violation { }
+    final Discharge { }
+    final Fulfillment { }
+    final UnsuccessfulTermination { }
+  }
+}
+
+class Power {
+  isA LegalPosition;
+  1 -> 0..* LegalPosition legalPositions;
+  status {
+    Start {
+      trigerredConditional -> Create;
+      trigerredUnconditional -> InEffect;
+    }
+    Create {
+      expired -> UnsuccessfulTermination;
+      activated -> InEffect;
+    }
+    Active {
+      InEffect { 
+        exerted -> SuccessfulTermination;
+        suspended -> Suspension;
+        expired -> UnsuccessfulTermination;
+      }
+      Suspension { 
+        resumed -> InEffect;
+      }
+      terminated -> UnsuccessfulTermination;
+    }
+    final SuccessfulTermination { }
+    final UnsuccessfulTermination { }
+  }
+}
