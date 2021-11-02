@@ -30,7 +30,7 @@ export class Obligation extends LegalPosition {
   }
 
   isActive () {
-    this.state === ObligationState.Active
+    return this.state === ObligationState.Active
   }
 
   // trigerredConditional() {

@@ -13,7 +13,15 @@ export class Power extends LegalPosition {
   }
 
   isInEffect() {
-    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
+    return this.state === PowerState.Active && this.activeState === PowerStateActive.InEffect
+  }
+
+  isActive () {
+    return this.state === PowerState.Active
+  }
+
+  isCreate () {
+    return this.state === PowerState.Create
   }
 
   // trigerredConditional() {
