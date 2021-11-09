@@ -1,17 +1,21 @@
 export class Event {
 
   constructor ( ) {
-    this.triggered = false
-    this.timestamp = null
+    this._triggered = false
+    this._timestamp = null
   }
 
   happen(event) {
-    this.triggered = true
-    this.timestamp = new Date().toISOString()
-    this.data = event
+    this._triggered = true
+    this._timestamp = new Date().toISOString()
+    if(event != null){
+      for(const key of Object.keys(event)){
+        this[key] = event[key]
+      }
+    }    
   }
 
   hasHappened () {
-    return this.triggered
+    return this._triggered
   }
 }

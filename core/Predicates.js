@@ -4,11 +4,11 @@ export const Predicates = {
   },
 
   happensBefore(e, ts) {
-    return Predicates.happens(e) && e.timestamp < ts
+    return Predicates.happens(e) && e._timestamp < ts
   },
 
   happensAfter(e, ts) {
-    return Predicates.happens(e) && e.timestamp > ts
+    return Predicates.happens(e) && e._timestamp > ts
   },
 
   happensWithin(e, arg1, arg2) {
@@ -24,6 +24,6 @@ export const Predicates = {
   },
 
   happensWithinDate(e, start, end) {
-    return e.hasHappened() && e.timestamp >= start && e.timestamp <= end
+    return e.hasHappened() && e._timestamp >= start && e._timestamp <= end
   }
 }
