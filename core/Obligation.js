@@ -21,6 +21,10 @@ export class Obligation extends LegalPosition {
     return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
   }
 
+  isCreated() {
+    return this.state === ObligationState.Create
+  }
+
   isSuspended() {
     return this.state === ObligationState.Active && this.activeState === ObligationActiveState.Suspension
   }
@@ -29,8 +33,16 @@ export class Obligation extends LegalPosition {
     return this.state === ObligationState.Fulfillment
   }
 
-  isActive () {
+  isActive() {
     return this.state === ObligationState.Active
+  }
+
+  isUnsuccessfulTermination(){
+    return this.state === ObligationState.UnsuccessfulTermination
+  }
+
+  isDischarged(){
+    return this.state === ObligationState.Discharge
   }
 
   // trigerredConditional() {

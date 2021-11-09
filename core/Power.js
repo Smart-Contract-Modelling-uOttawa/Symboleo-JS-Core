@@ -24,6 +24,18 @@ export class Power extends LegalPosition {
     return this.state === PowerState.Create
   }
 
+  isUnsuccessfulTermination() {
+    return this.state === PowerState.UnsuccessfulTermination
+  }
+
+  isSuccessfulTermination() {
+    return this.state === PowerState.SuccessfulTermination
+  }
+
+  isSuspended() {
+    return this.state === PowerState.Active && this.activeState === PowerStateActive.Suspension
+  }
+
   // trigerredConditional() {
   //   let wasEventProcessed = false
 

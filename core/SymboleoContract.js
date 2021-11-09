@@ -36,6 +36,34 @@ export class SymboleoContract {
     return this.state === ContractStates.Active && this.activeState === ContractActiveStates.InEffect
   }
 
+  isActive () {
+    return this.state === ContractStates.Active
+  }
+
+  isForm () {
+    return this.state === ContractStates.Form
+  }
+
+  isUnassign () {
+    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Unassign
+  }
+
+  isRescission () {
+    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Rescission
+  }
+
+  isSuspended() {
+    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Suspension
+  }
+
+  isUnsuccessfulTermination() {
+    return this.state === ContractStates.UnsuccessfulTermination
+  }
+
+  isSuccessfulTermination() {
+    return this.state === ContractStates.SuccessfulTermination
+  }
+
   activated() {
     let wasEventProcessed = false
 
