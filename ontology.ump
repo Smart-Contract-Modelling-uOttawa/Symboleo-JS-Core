@@ -53,8 +53,8 @@ class LegalPosition {
 }
 
 class Situation { 
-  0..1 preState -> 0..* Event before;
-  0..1 postState -> 0..* Event after;
+  0..1 postState -- 0..* Event before;
+  0..1 preState -- 0..* Event after;
   1 -> 1 TimeInterval time;
 }
 
@@ -68,7 +68,7 @@ class TimeInterval {
 }
 
 class TimePoint { 
-  
+
 }
 
 class LegalSituation { 
