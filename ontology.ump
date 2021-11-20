@@ -4,6 +4,7 @@ class Contract {
   1 <@>- 2..* Role roles;
   1 -- 2..* Party parties;
   1 -- 0..* Asset assets;
+  0..1 parentContract -- 0..* Contract subContract;
   status {
     Form {
       activated -> InEffect;
@@ -46,6 +47,32 @@ class LegalPosition {
   * performerOf -- * Party performer;
   * liableOf -- * Party liable;
   * rihgtHolderOf -- * Party rightHolder;
+  0..* antecedentLegalPosition -- 1 LegalSituation antecedent;
+  0..* consequentLegalPosition -- 1 LegalSituation consequent;
+  -> 0..1 LegalSituation trigger;
+}
+
+class Situation { 
+  0..1 preState -> 0..* Event before;
+  0..1 postState -> 0..* TimePoint after;
+  1 -> 1 TimeInterval time;
+}
+
+class Event { 
+  0..1 -> 1 TimePoint time;
+}
+
+class TimeInterval { 
+  0..1 -> 1 TimePoint start;
+  0..1 -> 1 TimePoint end;
+}
+
+class TimePoint { 
+  
+}
+
+class LegalSituation { 
+  isA Situation;
 }
 
 class Obligation {
