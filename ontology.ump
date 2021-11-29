@@ -1,25 +1,29 @@
+// Symboleo ontology and state machines
+
 class Contract {
-  0..1 -- 0..* Power powers;
   1 <@>- 2..* LegalPosition legalPositions;
   1 <@>- 2..* Role roles;
   1 -- 2..* Party parties;
   1 -- 0..* Asset assets;
-  0..1 parentContract -- 0..* Contract subContract;
+  0..1 parentContract -- 0..* Contract subContracts;
+  0..1 terminated -- 0..* Power terminators;
+  
+  // Contract state machine
   status {
     Form {
       activated -> InEffect;
     }
     Active {
-      InEffect { 
+      InEffect {
         rescinded -> Rescission;
-        suspended -> Suspension;
         revokedParty -> Unassign;
         fulfilledActiveObligations -> SuccessfulTermination;
+        suspended -> Suspension;
       }
-      Suspension { 
+      Suspension {
         resumed -> InEffect;
       }
-      Unassign { 
+      Unassign {
         assignedParty -> InEffect;
       }
       final Rescission {}
@@ -35,7 +39,7 @@ class Party { }
 class Role {
   1 debtor -- 0..* LegalPosition debt;
   1 creditor -- 0..* LegalPosition credit;
-  1..* -- 0..1 Party party;
+  1..* roles -- 0..1 Party party;
 }
 
 class Asset {
@@ -43,43 +47,51 @@ class Asset {
   0..1 -- 0..* LegalPosition legalPositions;
 }
 
-class LegalPosition { 
+class LegalPosition {
   * performerOf -- * Party performer;
   * liableOf -- * Party liable;
   * rightHolderOf -- * Party rightHolder;
-  0..* antecedentLegalPosition -- 1 LegalSituation antecedent;
-  0..* consequentLegalPosition -- 1 LegalSituation consequent;
-  -> 0..1 LegalSituation trigger;
+  0..* antecedentOf -- 1 LegalSituation antecedent;
+  0..* consequentOf -- 1 LegalSituation consequent;
+  // Unidirectional association; the 0..1 does not influence code generation
+  0..1 -> 0..1 LegalSituation trigger;
 }
 
-class Situation { 
-  0..1 postState -- 0..* Event before;
-  0..1 preState -- 0..* Event after;
-  1 -> 1 TimeInterval time;
+class Situation {
+  0..1 postState -- 0..* Event preEvents;
+  0..1 preState -- 0..* Event postEvents;
+  // Unidirectional association; the 0..1 does not influence code generation
+  0..1 -> 1 TimeInterval time;
 }
 
-class Event { 
+class Event {
+  // Unidirectional association; the 0..1 does not influence code generation
   0..1 -> 1 TimePoint time;
 }
 
-class TimeInterval { 
+class TimeInterval {
+  // Unidirectional associations; the 0..1 do not influence code generation
   0..1 -> 1 TimePoint start;
   0..1 -> 1 TimePoint end;
 }
 
-class TimePoint { 
+class TimePoint { }
 
-}
-
-class LegalSituation { 
-  isA Situation;
+class LegalSituation {
+  isA Situation;  
 }
 
 class Obligation {
   isA LegalPosition;
+  Boolean surviving; // true iff this is a surviving obligation.
+  
+  // Obligation state machine
   status {
+    // This Start state was added to cope with an Umple
+    // limitation regarding transitions from explicit
+    // start pseudostates, which are not supported.
     Start {
-      trigerredConditional -> Create;
+      triggeredConditional -> Create;
       trigerredUnconditional -> InEffect;
     }
     Create {
@@ -87,13 +99,13 @@ class Obligation {
       activated -> InEffect;
     }
     Active {
-      InEffect { 
+      InEffect {
         fulfilled -> Fulfillment;
         violated -> Violation;
-        suspended -> Suspension;
         discharged -> Discharge;
+        suspended -> Suspension;
       }
-      Suspension { 
+      Suspension {
         resumed -> InEffect;
       }
       terminated -> UnsuccessfulTermination;
@@ -107,10 +119,16 @@ class Obligation {
 
 class Power {
   isA LegalPosition;
-  1 -> 0..* LegalPosition legalPositions;
+  // Unidirectional associations; the 0..1 do not influence code generation
+  0..1 changeState -> 0..* LegalPosition legalPositions;
+  
+  // Contract state machine
   status {
+    // This Start state was added to cope with an Umple
+    // limitation regarding transitions from explicit
+    // start pseudostates, which are not supported.  status {
     Start {
-      trigerredConditional -> Create;
+      triggeredConditional -> Create;
       trigerredUnconditional -> InEffect;
     }
     Create {
@@ -118,12 +136,12 @@ class Power {
       activated -> InEffect;
     }
     Active {
-      InEffect { 
+      InEffect {
         exerted -> SuccessfulTermination;
-        suspended -> Suspension;
         expired -> UnsuccessfulTermination;
+        suspended -> Suspension;
       }
-      Suspension { 
+      Suspension {
         resumed -> InEffect;
       }
       terminated -> UnsuccessfulTermination;
