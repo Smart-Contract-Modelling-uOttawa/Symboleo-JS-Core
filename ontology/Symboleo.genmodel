@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/EcoreModel/src-gen" creationIcons="false" editDirectory="/EcoreModel.edit/src-gen"
+    editorDirectory="/EcoreModel.editor/src-gen" modelPluginID="EcoreModel" modelName="Symboleo"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>Symboleo.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Symboleo" basePackage="ecoremodel" disposableProviderFactory="true"
+      ecorePackage="Symboleo.ecore#/">
+    <genClasses ecoreClass="Symboleo.ecore#//Contract">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/legalPositions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/roles"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/parties"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/assets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/parentContract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/subContracts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Contract/terminators"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Party">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/contract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/roles"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/assets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/performerOf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/liableOf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Party/rightHolderOf"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Role">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Symboleo.ecore#//Role/contract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Role/party"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Role/debt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Role/credit"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Asset">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Asset/contract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Asset/owners"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Asset/legalPositions"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Symboleo.ecore#//LegalPosition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/contract"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/performer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/liable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/rightHolder"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/debtor"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/creditor"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/asset"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/antecedent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/consequent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalPosition/trigger"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Situation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Situation/preEvents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Situation/postEvents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Situation/time"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Event">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Event/postState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Event/preState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Event/time"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//TimeInterval">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//TimeInterval/start"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//TimeInterval/end"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//TimePoint"/>
+    <genClasses ecoreClass="Symboleo.ecore#//LegalSituation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalSituation/antecedentOf"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//LegalSituation/consequentOf"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Obligation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Symboleo.ecore#//Obligation/surviving"/>
+    </genClasses>
+    <genClasses ecoreClass="Symboleo.ecore#//Power">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Power/terminated"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symboleo.ecore#//Power/changeState"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Symboleo" nsURI="http://www.uottawa.ca/Symboleo" nsPrefix="symboleo">
+  <eClassifiers xsi:type="ecore:EClass" name="Contract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="legalPositions" lowerBound="2"
+        upperBound="-1" eType="#//LegalPosition" containment="true" eOpposite="#//LegalPosition/contract"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="2" upperBound="-1"
+        eType="#//Role" containment="true" eOpposite="#//Role/contract"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parties" lowerBound="2"
+        upperBound="-1" eType="#//Party" eOpposite="#//Party/contract"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assets" upperBound="-1"
+        eType="#//Asset" eOpposite="#//Asset/contract"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentContract" eType="#//Contract"
+        eOpposite="#//Contract/subContracts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subContracts" upperBound="-1"
+        eType="#//Contract" eOpposite="#//Contract/parentContract"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminators" upperBound="-1"
+        eType="#//Power" eOpposite="#//Power/terminated"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contract" lowerBound="1"
+        eType="#//Contract" eOpposite="#//Contract/parties"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1" upperBound="-1"
+        eType="#//Role" eOpposite="#//Role/party"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assets" upperBound="-1"
+        eType="#//Asset" eOpposite="#//Asset/owners"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performerOf" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/performer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="liableOf" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/liable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightHolderOf" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/rightHolder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Role">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contract" lowerBound="1"
+        eType="#//Contract" eOpposite="#//Contract/roles"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="party" eType="#//Party"
+        eOpposite="#//Party/roles"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="debt" upperBound="-1" eType="#//LegalPosition"
+        eOpposite="#//LegalPosition/debtor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="credit" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/creditor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Asset">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contract" lowerBound="1"
+        eType="#//Contract" eOpposite="#//Contract/assets"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owners" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/assets"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="legalPositions" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/asset"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LegalPosition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contract" lowerBound="1"
+        eType="#//Contract" eOpposite="#//Contract/legalPositions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performer" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/performerOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="liable" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/liableOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightHolder" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/rightHolderOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="debtor" lowerBound="1"
+        eType="#//Role" eOpposite="#//Role/debt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creditor" lowerBound="1"
+        eType="#//Role" eOpposite="#//Role/credit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asset" eType="#//Asset"
+        eOpposite="#//Asset/legalPositions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="antecedent" lowerBound="1"
+        eType="#//LegalSituation" eOpposite="#//LegalSituation/antecedentOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consequent" lowerBound="1"
+        eType="#//LegalSituation" eOpposite="#//LegalSituation/consequentOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" eType="#//LegalSituation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Situation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preEvents" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/postState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postEvents" upperBound="-1"
+        eType="#//Event" eOpposite="#//Event/preState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="time" lowerBound="1" eType="#//TimeInterval"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postState" eType="#//Situation"
+        eOpposite="#//Situation/preEvents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preState" eType="#//Situation"
+        eOpposite="#//Situation/postEvents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="time" lowerBound="1" eType="#//TimePoint"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeInterval">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//TimePoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" eType="#//TimePoint"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimePoint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LegalSituation" eSuperTypes="#//Situation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="antecedentOf" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/antecedent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consequentOf" upperBound="-1"
+        eType="#//LegalPosition" eOpposite="#//LegalPosition/consequent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Obligation" eSuperTypes="#//LegalPosition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surviving" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Power" eSuperTypes="#//LegalPosition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminated" eType="#//Contract"
+        eOpposite="#//Contract/terminators"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changeState" upperBound="-1"
+        eType="#//LegalPosition"/>
+  </eClassifiers>
+</ecore:EPackage>
