@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aidiiin/symboleo-js-core.git"
+    "url": "git+https://github.com/Smart-Contract-Modelling-uOttawa/Symboleo-JS-Core.git"
   },
   "author": "Aidin Rasti",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Aidiiin/symboleo-js-core/issues"
+    "url": "https://github.com/Smart-Contract-Modelling-uOttawa/Symboleo-JS-Core/issues"
   },
-  "homepage": "https://github.com/Aidiiin/symboleo-js-core#readme"
+  "homepage": "https://github.com/Smart-Contract-Modelling-uOttawa/Symboleo-JS-Core#readme"
 }
