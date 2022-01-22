@@ -7,4 +7,7 @@ export class LegalPosition {
     this.contract = contract
   }
 
+  equals(obj) {
+    return obj.name != null && obj instanceof LegalPosition && obj.name === this.name;
+  }
 }
