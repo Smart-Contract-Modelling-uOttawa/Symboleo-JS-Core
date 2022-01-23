@@ -1,4 +1,4 @@
-import { SymboleoContract } from './SymboleoContract';
+import { SymboleoContract } from './SymboleoContract.js';
 
 export default class Role {
   constructor(id, contract, party = null, debt = [], credit = []) {
@@ -54,6 +54,16 @@ export default class Role {
 
   getContract() {
     return this._contract;
+  }
+
+  indexOfDebt(a) {
+    const index = this._debt.findIndex((o) => o.equals(a));
+    return index;
+  }
+
+  indexOfCredit(a) {
+    const index = this._credit.findIndex((o) => o.equals(a));
+    return index;
   }
 
   addDebt(aDebt) {

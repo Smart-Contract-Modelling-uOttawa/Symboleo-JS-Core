@@ -1,8 +1,8 @@
 export class InternalEvent {
   constructor(source, type, object) {
-    this.source = source
-    this.type = type
-    this.object = object
+    this.source = source;
+    this.type = type;
+    this.object = object;
   }
 }
 
@@ -11,7 +11,7 @@ export const InternalEventSource = {
   power: 'power',
   contract: 'contract',
   contractEvent: 'contractEvent',
-}
+};
 
 export const InternalEventType = {
   obligation: {
@@ -46,6 +46,6 @@ export const InternalEventType = {
 
   },
   contractEvent: {
-    Happened: 'Happened'
+    Happened: 'Happened',
   },
-}
+};

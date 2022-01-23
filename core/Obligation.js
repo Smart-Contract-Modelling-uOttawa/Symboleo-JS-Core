@@ -1,48 +1,62 @@
-import { LegalPosition } from "./LegalPosition.js"
-import { Event } from "./Event.js"
-import { Events } from "../Events.js"
-import { InternalEvent, InternalEventSource, InternalEventType } from "./InternalEvents.js"
+import { LegalPosition } from './LegalPosition.js';
+import { Event } from './Event.js';
+import { Events } from '../Events.js';
+import { InternalEvent, InternalEventSource, InternalEventType } from './InternalEvents.js';
 
+export const ObligationState = {
+  Start: 'Start',
+  Create: 'Create',
+  Active: 'Active',
+  Violation: 'Violation',
+  Discharge: 'Discharge',
+  Fulfillment: 'Fulfillment',
+  UnsuccessfulTermination: 'UnsuccessfulTermination',
+};
+export const ObligationActiveState = {
+  Null: 'Null',
+  InEffect: 'InEffect',
+  Suspension: 'Suspension',
+};
 
 export class Obligation extends LegalPosition {
-
-  constructor(name, creditor, debtor, contract) {
-    super(name, creditor, debtor, contract)
-    this.setActiveState(ObligationActiveState.Null)
-    this.setState(ObligationState.Create)
-    this._events = {}
+  constructor(name, creditor, debtor, contract, surviving) {
+    super(name, creditor, debtor, contract);
+    this.setActiveState(ObligationActiveState.Null);
+    this.setState(ObligationState.Create);
+    this._events = {};
+    this._surviving = surviving;
   }
 
   isViolated() {
-    return this.state === ObligationState.Violation
+    return this.state === ObligationState.Violation;
   }
 
   isInEffect() {
-    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect
+    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect;
   }
 
   isCreated() {
-    return this.state === ObligationState.Create
+    return this.state === ObligationState.Create;
   }
 
   isSuspended() {
-    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.Suspension
+    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.Suspension;
   }
 
-  isFulfilled(){
-    return this.state === ObligationState.Fulfillment
+  isFulfilled() {
+    return this.state === ObligationState.Fulfillment;
   }
 
   isActive() {
-    return this.state === ObligationState.Active
+    return this.state === ObligationState.Active;
   }
 
-  isUnsuccessfulTermination(){
-    return this.state === ObligationState.UnsuccessfulTermination
+  isUnsuccessfulTermination() {
+    return this.state === ObligationState.UnsuccessfulTermination;
   }
 
-  isDischarged(){
-    return this.state === ObligationState.Discharge
+  isDischarged() {
+    return this.state === ObligationState.Discharge;
   }
 
   // trigerredConditional() {
@@ -55,7 +69,8 @@ export class Obligation extends LegalPosition {
   //       wasEventProcessed = true
   //       this._events.Triggered = new Event()
   //       this._events.Triggered.happen()
-  //       Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
+  //       Events.emitEvent(this.contract,
+  //           new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
   //       break
   //     default:
   //     // Other states do respond to this event
@@ -65,248 +80,264 @@ export class Obligation extends LegalPosition {
   // }
 
   trigerredUnconditional() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatus = this.state
+    const aStatus = this.state;
     switch (aStatus) {
       case ObligationState.Create:
-        this.setActiveState(ObligationActiveState.InEffect)
-        wasEventProcessed = true
-        this._events.Triggered = new Event()
-        this._events.Triggered.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
-        break
+        this.setActiveState(ObligationActiveState.InEffect);
+        wasEventProcessed = true;
+        this._events.Triggered = new Event();
+        this._events.Triggered.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   expired() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatus = this.state
+    const aStatus = this.state;
     switch (aStatus) {
       case ObligationState.Create:
-        this.setState(ObligationState.Discharge)
-        wasEventProcessed = true
-        this._events.Expired = new Event()
-        this._events.Expired.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Expired, this))
-        break
+        this.setState(ObligationState.Discharge);
+        wasEventProcessed = true;
+        this._events.Expired = new Event();
+        this._events.Expired.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Expired, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   discharged() {
     if (!this.contract.isInEffect()) {
-      return false
+      return false;
     }
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatus = this.state
+    const aStatus = this.state;
     switch (aStatus) {
       case ObligationState.InEffect:
-        this.exitStatus()
-        this.setState(ObligationState.Discharge)
-        wasEventProcessed = true
-        this._events.Discharged = new Event()
-        this._events.Discharged.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Discharged, this))
-        break
+        this.exitStatus();
+        this.setState(ObligationState.Discharge);
+        wasEventProcessed = true;
+        this._events.Discharged = new Event();
+        this._events.Discharged.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Discharged, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   activated() {
     if (!this.contract.isInEffect()) {
-      return false
+      return false;
     }
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatus = this.state
+    const aStatus = this.state;
     switch (aStatus) {
       case ObligationState.Create:
-        this.setActiveState(ObligationActiveState.InEffect)
-        wasEventProcessed = true
-        this._events.Activated = new Event()
-        this._events.Activated.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this))
-        break
+        this.setActiveState(ObligationActiveState.InEffect);
+        wasEventProcessed = true;
+        this._events.Activated = new Event();
+        this._events.Activated.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   terminated() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatus = this.state
+    const aStatus = this.state;
     switch (aStatus) {
       case ObligationState.Active:
-        this.exitStatus()
-        this.setState(ObligationState.UnsuccessfulTermination)
-        wasEventProcessed = true
-        this._events.Terminated = new Event()
-        this._events.Terminated.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Terminated, this))
-        break
+        this.exitStatus();
+        this.setState(ObligationState.UnsuccessfulTermination);
+        wasEventProcessed = true;
+        this._events.Terminated = new Event();
+        this._events.Terminated.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Terminated, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   fulfilled() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatusActive = this.activeState
+    const aStatusActive = this.activeState;
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        this.exitStatus()
-        this.setState(ObligationState.Fulfillment)
-        wasEventProcessed = true
-        this._events.Fulfilled = new Event()
-        this._events.Fulfilled.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Fulfilled, this))
-        break
+        this.exitStatus();
+        this.setState(ObligationState.Fulfillment);
+        wasEventProcessed = true;
+        this._events.Fulfilled = new Event();
+        this._events.Fulfilled.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Fulfilled, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   violated() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatusActive = this.activeState
+    const aStatusActive = this.activeState;
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        this.exitStatus()
-        this.setState(ObligationState.Violation)
-        wasEventProcessed = true
-        this._events.Violated = new Event()
-        this._events.Violated.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Violated, this))
-        break
+        this.exitStatus();
+        this.setState(ObligationState.Violation);
+        wasEventProcessed = true;
+        this._events.Violated = new Event();
+        this._events.Violated.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Violated, this),
+        );
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   suspended() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatusActive = this.activeState
+    const aStatusActive = this.activeState;
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
-        this.exitStatusActive()
-        this.setActiveState(ObligationActiveState.Suspension)
-        wasEventProcessed = true
-        this._events.Suspended = new Event()
-        this._events.Suspended.happen()
-        Events.emitEvent(this.contract, new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Suspended, this))
+        this.exitStatusActive();
+        this.setActiveState(ObligationActiveState.Suspension);
+        wasEventProcessed = true;
+        this._events.Suspended = new Event();
+        this._events.Suspended.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Suspended, this),
+        );
 
-        break
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   resumed() {
-    let wasEventProcessed = false
+    let wasEventProcessed = false;
 
-    let aStatusActive = this.activeState
+    const aStatusActive = this.activeState;
     switch (aStatusActive) {
       case ObligationActiveState.Suspension:
-        this.exitStatusActive()
-        this.setActiveState(ObligationActiveState.InEffect)
-        wasEventProcessed = true
-        this._events.Resumed = new Event()
-        this._events.Resumed.happen()
-        break
+        this.exitStatusActive();
+        this.setActiveState(ObligationActiveState.InEffect);
+        wasEventProcessed = true;
+        this._events.Resumed = new Event();
+        this._events.Resumed.happen();
+        break;
       default:
       // Other states do respond to this event
     }
 
-    return wasEventProcessed
+    return wasEventProcessed;
   }
 
   exitStatus() {
     switch (this.state) {
       case ObligationState.Active:
-        this.exitStatusActive()
-        break
+        this.exitStatusActive();
+        break;
+      default:
+        break;
     }
   }
 
   setState(aStatus) {
-    this.state = aStatus
+    this.state = aStatus;
 
     // entry actions and do activities
     switch (this.state) {
       case ObligationState.Active:
-        if (this.activeState == ObligationActiveState.Null) {
-          this.setActiveState(ObligationActiveState.InEffect)
+        if (this.activeState === ObligationActiveState.Null) {
+          this.setActiveState(ObligationActiveState.InEffect);
         }
-        break
+        break;
       case ObligationState.Violation:
-        break
+        break;
       case ObligationState.Discharge:
-        break
+        break;
       case ObligationState.Fulfillment:
-        break
+        break;
       case ObligationState.UnsuccessfulTermination:
-        break
+        break;
+      default: break;
     }
   }
 
   exitStatusActive() {
     switch (this.activeState) {
       case ObligationActiveState.InEffect:
-        this.setActiveState(ObligationActiveState.Null)
-        break
+        this.setActiveState(ObligationActiveState.Null);
+        break;
       case ObligationActiveState.Suspension:
-        this.setActiveState(ObligationActiveState.Null)
-        break
+        this.setActiveState(ObligationActiveState.Null);
+        break;
+      default: break;
     }
   }
 
   setActiveState(aStatusActive) {
-    this.activeState = aStatusActive
-    if (this.state != ObligationState.Active && aStatusActive != ObligationActiveState.Null) {
-      this.setState(ObligationState.Active)
+    this.activeState = aStatusActive;
+    if (this.state !== ObligationState.Active && aStatusActive !== ObligationActiveState.Null) {
+      this.setState(ObligationState.Active);
     }
   }
 
-}
-
-export const ObligationState = {
-  Start: 'Start',
-  Create: 'Create',
-  Active: 'Active',
-  Violation: 'Violation',
-  Discharge: 'Discharge',
-  Fulfillment: 'Fulfillment',
-  UnsuccessfulTermination: 'UnsuccessfulTermination'
-}
-export const ObligationActiveState = {
-  Null: 'Null',
-  InEffect: 'InEffect',
-  Suspension: 'Suspension'
+  delete() {
+    super.delete();
+  }
 }

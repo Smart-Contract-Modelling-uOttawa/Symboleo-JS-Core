@@ -1,4 +1,4 @@
-import { SymboleoContract } from './SymboleoContract';
+import { SymboleoContract } from './SymboleoContract.js';
 
 export class Party {
   constructor(id, aContract, allRoles, assets = [], performerOf = [], liableOf = [], rightHolderOf = []) {
@@ -103,6 +103,26 @@ export class Party {
     return this._rightHolderOf.length > 0;
   }
 
+  indexOfAsset(aAsset) {
+    const index = this._assets.findIndex((o) => o.equals(aAsset));
+    return index;
+  }
+
+  indexOfRightHolderOf(a) {
+    const index = this._rightHolderOf.findIndex((o) => o.equals(a));
+    return index;
+  }
+
+  indexOfLiableOf(a) {
+    const index = this._liableOf.findIndex((o) => o.equals(a));
+    return index;
+  }
+
+  indexOfPerformerOf(a) {
+    const index = this._performerOf.findIndex((o) => o.equals(a));
+    return index;
+  }
+
   setContract(aContract) {
     let wasSet = false;
     if (aContract == null) {
@@ -146,7 +166,6 @@ export class Party {
       existingParty._roles.splice(index, 1);
     }
     this._roles.push(aRole);
-    // TODO
     this.setParty(aRole, this);
     wasAdded = true;
     return wasAdded;
@@ -157,7 +176,6 @@ export class Party {
     if (this._roles.some((o) => o.equals(aRole)) && this.numberOfRoles() > this.minimumNumberOfRoles()) {
       const index = this._roles.findIndex((o) => o.equals(aRole));
       this._roles.splice(index, 1);
-      // TODO
       this.setParty(aRole, null);
       wasRemoved = true;
     }
@@ -194,7 +212,6 @@ export class Party {
     this._roles = this._roles.filter((o) => !checkNewRoles.some((d) => o.equals(d)));
 
     for (const orphan of this._roles) {
-      // TODO
       this.setParty(orphan, null);
     }
     this._roles = [];
@@ -203,7 +220,6 @@ export class Party {
         const index = aRole.getParty()._roles.findIndex((o) => o.equals(aRole));
         aRole.getParty()._roles.splice(index, 1);
       }
-      // TODO
       this.setParty(aRole, this);
       this._roles.push(aRole);
     }
@@ -211,19 +227,10 @@ export class Party {
     return wasSet;
   }
 
-  // setParty(Role aRole, Party aParty)
-  // {
-  //   try
-  //   {
-  //     java.lang.reflect.Field mentorField = aRole.getClass().getDeclaredField("party");
-  //     mentorField.setAccessible(true);
-  //     mentorField.set(aRole, aParty);
-  //   }
-  //   catch (Exception e)
-  //   {
-  //     throw new RuntimeException("Issue internally setting aParty to aRole", e);
-  //   }
-  // }
+  static setParty(argRole, party) {
+    /* eslint no-param-reassign: "error" */
+    argRole._party = party;
+  }
 
   static minimumNumberOfAssets() {
     return 0;
@@ -396,7 +403,6 @@ export class Party {
       placeholderContract.removeParty(this);
     }
     for (const aRole of this._roles) {
-      // TODO
       this.setParty(aRole, null);
     }
     this._roles = [];

@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 module.exports = {
   env: {
     browser: true,
@@ -17,5 +18,6 @@ module.exports = {
     'max-len': ['error', { code: 120 }],
     'no-iterator': 'off',
     'no-restricted-syntax': 'off',
+    'import/extensions': ['error', 'always'],
   },
 };
