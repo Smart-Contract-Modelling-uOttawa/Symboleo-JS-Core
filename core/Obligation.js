@@ -59,26 +59,6 @@ export class Obligation extends LegalPosition {
     return this.state === ObligationState.Discharge;
   }
 
-  // trigerredConditional() {
-  //   let wasEventProcessed = false
-
-  //   let aStatus = this.state
-  //   switch (aStatus) {
-  //     case ObligationState.Start:
-  //       this.setState(ObligationState.Create)
-  //       wasEventProcessed = true
-  //       this._events.Triggered = new Event()
-  //       this._events.Triggered.happen()
-  //       Events.emitEvent(this.contract,
-  //           new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this))
-  //       break
-  //     default:
-  //     // Other states do respond to this event
-  //   }
-
-  //   return wasEventProcessed
-  // }
-
   trigerredUnconditional() {
     let wasEventProcessed = false;
 

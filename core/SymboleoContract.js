@@ -158,24 +158,6 @@ export class SymboleoContract {
     return wasEventProcessed;
   }
 
-  // revokedParty() {
-  //   wasEventProcessed = false;
-
-  //   aStatusActive = statusActive;
-  //   switch (aStatusActive)
-  //   {
-  //     case InEffect:
-  //       exitStatusActive();
-  //       setActiveState(StatusActive.Unassign);
-  //       wasEventProcessed = true;
-  //       break;
-  //     default:
-  //       // Other states do respond to this event
-  //   }
-
-  //   return wasEventProcessed;
-  // }
-
   fulfilledActiveObligations() {
     let wasEventProcessed = false;
 
@@ -221,25 +203,6 @@ export class SymboleoContract {
 
     return wasEventProcessed;
   }
-
-  // assignedParty()
-  // {
-  //   wasEventProcessed = false;
-
-  //   aStatusActive = statusActive;
-  //   switch (aStatusActive)
-  //   {
-  //     case Unassign:
-  //       exitStatusActive();
-  //       setActiveState(StatusActive.InEffect);
-  //       wasEventProcessed = true;
-  //       break;
-  //     default:
-  //       // Other states do respond to this event
-  //   }
-
-  //   return wasEventProcessed;
-  // }
 
   exitStatus() {
     switch (this.state) {
