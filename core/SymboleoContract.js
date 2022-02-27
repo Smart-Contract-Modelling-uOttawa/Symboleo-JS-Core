@@ -22,9 +22,6 @@ export class SymboleoContract {
     this.id = parseInt(Math.random() * 10000000, 10);
     this.setActiveState(ContractActiveStates.Null);
     this.setState(ContractStates.Form);
-    this.obligations = {};
-    this.survivingObligations = {};
-    this.powers = {};
     this._events = {};
     this._roles = [];
     this._parties = [];

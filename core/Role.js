@@ -1,10 +1,7 @@
 import { SymboleoContract } from './SymboleoContract.js';
 
-export default class Role {
+export class Role {
   constructor(id, contract, party = null, debt = [], credit = []) {
-    if (contract == null) {
-      throw new Error('Contract of Role class should not be null.');
-    }
     this._id = id;
     this._contract = contract;
     this._debt = debt;
