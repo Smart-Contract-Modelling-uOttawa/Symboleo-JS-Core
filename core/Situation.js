@@ -1,4 +1,4 @@
-export class Situation {
+class Situation {
   constructor(aTime) {
     this.preEvents = [];
     this.postEvents = [];
@@ -14,3 +14,5 @@ export class Situation {
     return wasSet;
   }
 }
+
+module.exports.Situation = Situation;

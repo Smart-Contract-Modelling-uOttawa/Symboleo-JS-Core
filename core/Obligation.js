@@ -1,9 +1,9 @@
-import { LegalPosition } from './LegalPosition.js';
-import { Event } from './Event.js';
-import { Events } from '../Events.js';
-import { InternalEvent, InternalEventSource, InternalEventType } from './InternalEvents.js';
+const { LegalPosition } = require('./LegalPosition.js');
+const { Event } = require('./Event.js');
+const { Events } = require('../Events.js');
+const { InternalEvent, InternalEventSource, InternalEventType } = require('./InternalEvents.js');
 
-export const ObligationState = {
+const ObligationState = {
   Start: 'Start',
   Create: 'Create',
   Active: 'Active',
@@ -12,13 +12,13 @@ export const ObligationState = {
   Fulfillment: 'Fulfillment',
   UnsuccessfulTermination: 'UnsuccessfulTermination',
 };
-export const ObligationActiveState = {
+const ObligationActiveState = {
   Null: 'Null',
   InEffect: 'InEffect',
   Suspension: 'Suspension',
 };
 
-export class Obligation extends LegalPosition {
+class Obligation extends LegalPosition {
   constructor(name, creditor, debtor, contract, surviving) {
     super(name, creditor, debtor, contract);
     this.setActiveState(ObligationActiveState.Null);
@@ -321,3 +321,7 @@ export class Obligation extends LegalPosition {
     super.delete();
   }
 }
+
+module.exports.Obligation = Obligation;
+module.exports.ObligationActiveState = ObligationActiveState;
+module.exports.ObligationState = ObligationState;

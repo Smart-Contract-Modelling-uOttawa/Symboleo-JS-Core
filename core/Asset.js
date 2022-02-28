@@ -1,4 +1,4 @@
-export class Asset {
+class Asset {
   constructor(id, contract, owners, legaPositions) {
     this._id = id;
     this._owners = owners;
@@ -158,3 +158,5 @@ export class Asset {
     return obj._id != null && obj instanceof Asset && obj._id === this._id;
   }
 }
+
+module.exports.Asset = Asset;

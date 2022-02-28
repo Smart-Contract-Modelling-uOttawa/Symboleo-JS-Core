@@ -1,4 +1,4 @@
-export const Predicates = {
+const Predicates = {
   happens(e) {
     return e != null && e.hasHappened();
   },
@@ -26,3 +26,5 @@ export const Predicates = {
     return e.hasHappened() && e._timestamp >= start && e._timestamp <= end;
   },
 };
+
+module.exports.Predicates = Predicates;

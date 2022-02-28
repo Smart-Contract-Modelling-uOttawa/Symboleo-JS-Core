@@ -1,15 +1,15 @@
-import { Event } from './Event.js';
-import { Events } from '../Events.js';
-import { InternalEvent, InternalEventSource, InternalEventType } from './InternalEvents.js';
+const { Event } = require('./Event.js');
+const { Events } = require('../Events.js');
+const { InternalEvent, InternalEventSource, InternalEventType } = require('./InternalEvents.js');
 
-export const ContractStates = {
+const ContractStates = {
   Form: 'Form',
   Active: 'Active',
   SuccessfulTermination: 'SuccessfulTermination',
   UnsuccessfulTermination: 'UnsuccessfulTermination',
 };
 
-export const ContractActiveStates = {
+const ContractActiveStates = {
   Null: 'Null',
   InEffect: 'InEffect',
   Suspension: 'Suspension',
@@ -17,7 +17,7 @@ export const ContractActiveStates = {
   Rescission: 'Rescission',
 };
 
-export class SymboleoContract {
+class SymboleoContract {
   constructor() {
     this.id = parseInt(Math.random() * 10000000, 10);
     this.setActiveState(ContractActiveStates.Null);
@@ -680,3 +680,7 @@ export class SymboleoContract {
     return obj.id != null && obj instanceof SymboleoContract && obj.id === this.id;
   }
 }
+
+module.exports.SymboleoContract = SymboleoContract;
+module.exports.ContractStates = ContractStates;
+module.exports.ContractActiveStates = ContractActiveStates;

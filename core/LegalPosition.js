@@ -1,6 +1,6 @@
-import { SymboleoContract } from './SymboleoContract.js';
+const { SymboleoContract } = require('./SymboleoContract.js');
 
-export class LegalPosition {
+class LegalPosition {
   constructor(name, creditor, debtor, contract) {
     this.name = name;
     this.creditor = creditor;
@@ -354,3 +354,5 @@ export class LegalPosition {
     return obj.name != null && obj instanceof LegalPosition && obj.name === this.name;
   }
 }
+
+module.exports.LegalPosition = LegalPosition;

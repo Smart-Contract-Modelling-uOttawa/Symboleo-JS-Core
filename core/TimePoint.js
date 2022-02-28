@@ -1,1 +1,3 @@
-export class TimePoint {}
+class TimePoint {}
+
+module.exports.TimePoint = TimePoint;

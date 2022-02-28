@@ -1,6 +1,6 @@
-import { Situation } from './Situation.js';
+const { Situation } = require('./Situation.js');
 
-export class LegalSituation extends Situation {
+class LegalSituation extends Situation {
   constructor(aTime) {
     super(aTime);
     this.antecedentOf = [];
@@ -121,3 +121,5 @@ export class LegalSituation extends Situation {
     super.delete();
   }
 }
+
+module.exports.LegalSituation = LegalSituation;

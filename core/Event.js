@@ -1,4 +1,4 @@
-export class Event {
+class Event {
   constructor() {
     this._triggered = false;
     this._timestamp = null;
@@ -18,3 +18,5 @@ export class Event {
     return this._triggered;
   }
 }
+
+module.exports.Event = Event;

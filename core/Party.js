@@ -1,6 +1,6 @@
-import { SymboleoContract } from './SymboleoContract.js';
+const { SymboleoContract } = require('./SymboleoContract.js');
 
-export class Party {
+class Party {
   constructor(id, aContract, allRoles, assets = [], performerOf = [], liableOf = [], rightHolderOf = []) {
     this._id = id;
     this._assets = assets;
@@ -431,3 +431,5 @@ export class Party {
     return obj._id != null && obj instanceof Party && obj._id === this._id;
   }
 }
+
+module.exports.Party = Party;
