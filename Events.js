@@ -12,7 +12,7 @@ module.exports.Events = {
       const events = subscription[0];
       const callback = subscription[1];
       for (const event of events) {
-        if (this.eventsMatch(event, emittedEvent)) {
+        if (this.eventsMatch(emittedEvent, event)) {
           callback(contract);
         }
       }
@@ -20,6 +20,9 @@ module.exports.Events = {
   },
 
   eventsMatch(a, b) {
+    if (b.object == null) {
+      return false;
+    }
     if (a.source === b.source && a.type === b.type) {
       if (a.source === InternalEventSource.obligation || a.source === InternalEventSource.power) {
         return a.object.name === b.object.name;

@@ -18,8 +18,10 @@ const ContractActiveStates = {
 };
 
 class SymboleoContract {
-  constructor() {
-    this.id = parseInt(Math.random() * 10000000, 10);
+  constructor(name) {
+    const now = new Date();
+    // eslint-disable-next-line max-len
+    this.id = `${name}_${now.getUTCFullYear()}${now.getUTCMonth()}${now.getUTCDate()}${now.getUTCHours()}`;
     this.setActiveState(ContractActiveStates.Null);
     this.setState(ContractStates.Form);
     this._events = {};
