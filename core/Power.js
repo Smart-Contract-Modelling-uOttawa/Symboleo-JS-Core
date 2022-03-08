@@ -20,7 +20,7 @@ class Power extends LegalPosition {
   constructor(name, creditor, debtor, contract) {
     super(name, creditor, debtor, contract);
     this.setActiveState(PowerStateActive.Null);
-    this.setState(PowerState.Create);
+    this.setState(PowerState.Start);
     this._events = {};
     this.legalPositions = [];
   }
@@ -54,8 +54,30 @@ class Power extends LegalPosition {
 
     const aPowerState = this.state;
     switch (aPowerState) {
-      case PowerState.Create:
+      case PowerState.Start:
         this.setActiveState(PowerStateActive.InEffect);
+        wasEventProcessed = true;
+        this._events.Triggered = new Event();
+        this._events.Triggered.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.power, InternalEventType.power.Activated, this),
+        );
+        break;
+      default:
+      // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  trigerredConditional() {
+    let wasEventProcessed = false;
+
+    const aPowerState = this.state;
+    switch (aPowerState) {
+      case PowerState.Start:
+        this.setState(PowerState.Create);
         wasEventProcessed = true;
         this._events.Triggered = new Event();
         this._events.Triggered.happen();

@@ -22,7 +22,7 @@ class Obligation extends LegalPosition {
   constructor(name, creditor, debtor, contract, surviving) {
     super(name, creditor, debtor, contract);
     this.setActiveState(ObligationActiveState.Null);
-    this.setState(ObligationState.Create);
+    this.setState(ObligationState.Start);
     this._events = {};
     this._surviving = surviving;
   }
@@ -64,8 +64,30 @@ class Obligation extends LegalPosition {
 
     const aStatus = this.state;
     switch (aStatus) {
-      case ObligationState.Create:
+      case ObligationState.Start:
         this.setActiveState(ObligationActiveState.InEffect);
+        wasEventProcessed = true;
+        this._events.Triggered = new Event();
+        this._events.Triggered.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this),
+        );
+        break;
+      default:
+      // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  trigerredConditional() {
+    let wasEventProcessed = false;
+
+    const aStatus = this.state;
+    switch (aStatus) {
+      case ObligationState.Start:
+        this.setState(ObligationState.Create);
         wasEventProcessed = true;
         this._events.Triggered = new Event();
         this._events.Triggered.happen();
@@ -109,9 +131,9 @@ class Obligation extends LegalPosition {
     }
     let wasEventProcessed = false;
 
-    const aStatus = this.state;
-    switch (aStatus) {
-      case ObligationState.InEffect:
+    const aStatusActive = this.activeState;
+    switch (aStatusActive) {
+      case ObligationActiveState.InEffect:
         this.exitStatus();
         this.setState(ObligationState.Discharge);
         wasEventProcessed = true;

@@ -4,7 +4,7 @@
   "description": "symboleo-js-core",
   "exports": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/Smart-Contract-Modelling-uOttawa/Symboleo-JS-Core#readme",
   "devDependencies": {
+    "chai": "^4.3.6",
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "mocha": "^9.2.1"
   },
-  "keywords": ["Symboleo"]
+  "keywords": [
+    "Symboleo"
+  ]
 }
