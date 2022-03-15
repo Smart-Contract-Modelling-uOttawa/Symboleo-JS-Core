@@ -57,8 +57,8 @@ class Power extends LegalPosition {
       case PowerState.Start:
         this.setActiveState(PowerStateActive.InEffect);
         wasEventProcessed = true;
-        this._events.Triggered = new Event();
-        this._events.Triggered.happen();
+        this._events.Activated = new Event();
+        this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
           new InternalEvent(InternalEventSource.power, InternalEventType.power.Activated, this),

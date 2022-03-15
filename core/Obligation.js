@@ -67,11 +67,11 @@ class Obligation extends LegalPosition {
       case ObligationState.Start:
         this.setActiveState(ObligationActiveState.InEffect);
         wasEventProcessed = true;
-        this._events.Triggered = new Event();
-        this._events.Triggered.happen();
+        this._events.Activated = new Event();
+        this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this),
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this),
         );
         break;
       default:
@@ -280,6 +280,10 @@ class Obligation extends LegalPosition {
         wasEventProcessed = true;
         this._events.Resumed = new Event();
         this._events.Resumed.happen();
+        Events.emitEvent(
+          this.contract,
+          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Resumed, this),
+        );
         break;
       default:
       // Other states do respond to this event

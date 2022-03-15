@@ -1,29 +1,29 @@
 const Utils = {
   addTime(argDate, value, unit) {
-    let date;
-    if (typeof argDate === 'string' || argDate instanceof String) {
-      date = new Date(argDate);
-    }
+    const date = new Date(argDate);
 
     // eslint-disable-next-line default-case
     switch (unit) {
       case 'seconds':
-        date.setSeconds(date.getSeconds() + value);
+        date.setUTCSeconds(date.getUTCSeconds() + value);
         break;
       case 'minutes':
-        date.setMinutes(date.getMinutes() + value);
+        date.setUTCMinutes(date.getUTCMinutes() + value);
         break;
       case 'hours':
-        date.setHours(date.getHours() + value);
+        date.setUTCHours(date.getUTCHours() + value);
         break;
       case 'days':
-        date.setHours(date.getHours() + value * 24);
+        date.setUTCDate(date.getUTCDate() + value);
         break;
       case 'weeks':
-        date.setHours(date.getHours() + value * 24 * 7);
+        date.setUTCDate(date.getUTCDate() + value * 7);
+        break;
+      case 'months':
+        date.setUTCMonth(date.getUTCMonth() + value);
         break;
       case 'years':
-        date.setFullYear(date.getFullYear() + value);
+        date.setUTCFullYear(date.getUTCFullYear() + value);
         break;
     }
 
@@ -31,17 +31,21 @@ const Utils = {
   },
 };
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const Str = {
   substring(a, start, end) {
     return a.substring(start, end);
   },
 
-  replaceAll(a, pattern, replace) {
-    return a.replaceAll(pattern, replace);
-  },
-
   replace(a, pattern, replace) {
     return a.replace(pattern, replace);
+  },
+
+  replaceAll(a, find, replace) {
+    return a.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   },
 
   concat(a, b) {

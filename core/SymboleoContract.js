@@ -233,16 +233,18 @@ class SymboleoContract {
 
   exitStatusActive() {
     switch (this.activeState) {
-      case ContractStates.InEffect:
+      case ContractActiveStates.InEffect:
         this.setActiveState(ContractActiveStates.Null);
         break;
-      case ContractStates.Suspension:
+      case ContractActiveStates.Suspension:
+        // delete();
+        this.setActiveState(ContractActiveStates.Null);
+        // delete();
+        break;
+      case ContractActiveStates.Unassign:
         this.setActiveState(ContractActiveStates.Null);
         break;
-      case ContractStates.Unassign:
-        this.setActiveState(ContractActiveStates.Null);
-        break;
-      case ContractStates.Rescission:
+      case ContractActiveStates.Rescission:
         this.setActiveState(ContractActiveStates.Null);
         break;
       default: break;
