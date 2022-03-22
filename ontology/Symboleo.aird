@@ -5,7 +5,7 @@
     <semanticResources>Symboleo.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_W8uZ4Fx9EeyJCLlyIRhdZQ">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_XBC5MFx9EeyJCLlyIRhdZQ" name="Symboleo" repPath="#_W_5CoFx9EeyJCLlyIRhdZQ" changeId="6bf5dce5-6cbe-4da1-8cb2-3a88023e463d">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_XBC5MFx9EeyJCLlyIRhdZQ" name="Symboleo" repPath="#_W_5CoFx9EeyJCLlyIRhdZQ" changeId="6e5ac3e9-9248-4ad4-ae52-cc17663ab2c6">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="Symboleo.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -634,7 +634,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_xOqnMFx-EeyJCLlyIRhdZQ" sourceNode="_w0iP8Fx-EeyJCLlyIRhdZQ" targetNode="_xOj5gFx-EeyJCLlyIRhdZQ" beginLabel="[1..1] contract" endLabel="[2..*] parties">
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_xOqnMFx-EeyJCLlyIRhdZQ" sourceNode="_w0iP8Fx-EeyJCLlyIRhdZQ" targetNode="_xOj5gFx-EeyJCLlyIRhdZQ" beginLabel="[1..*] contract" endLabel="[2..*] parties">
       <target xmi:type="ecore:EReference" href="Symboleo.ecore#//Contract/parties"/>
       <semanticElements xmi:type="ecore:EReference" href="Symboleo.ecore#//Party/contract"/>
       <semanticElements xmi:type="ecore:EReference" href="Symboleo.ecore#//Contract/parties"/>
@@ -935,6 +935,7 @@
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_zV4LU1x-EeyJCLlyIRhdZQ" showIcon="false">
           <customFeatures>labelColor</customFeatures>
           <customFeatures>labelSize</customFeatures>
+          <labelFormat>bold</labelFormat>
         </centerLabelStyle>
         <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_zV4LUlx-EeyJCLlyIRhdZQ" showIcon="false">
           <customFeatures>labelColor</customFeatures>

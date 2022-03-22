@@ -1,6 +1,10 @@
 const { Event } = require('./Event.js');
 const { Events } = require('../Events.js');
-const { InternalEvent, InternalEventSource, InternalEventType } = require('./InternalEvents.js');
+const {
+  InternalEvent,
+  InternalEventSource,
+  InternalEventType,
+} = require('./InternalEvents.js');
 
 const ContractStates = {
   Form: 'Form',
@@ -35,7 +39,8 @@ class SymboleoContract {
   }
 
   isInEffect() {
-    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.InEffect;
+    return this.state === ContractStates.Active
+    && this.activeState === ContractActiveStates.InEffect;
   }
 
   isActive() {
@@ -47,15 +52,18 @@ class SymboleoContract {
   }
 
   isUnassign() {
-    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Unassign;
+    return this.state === ContractStates.Active
+    && this.activeState === ContractActiveStates.Unassign;
   }
 
   isRescission() {
-    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Rescission;
+    return this.state === ContractStates.Active
+    && this.activeState === ContractActiveStates.Rescission;
   }
 
   isSuspended() {
-    return this.state === ContractStates.Active && this.activeState === ContractActiveStates.Suspension;
+    return this.state === ContractStates.Active
+    && this.activeState === ContractActiveStates.Suspension;
   }
 
   isUnsuccessfulTermination() {
@@ -78,7 +86,12 @@ class SymboleoContract {
         this._events.Activated.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Activated, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.Activated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -101,7 +114,12 @@ class SymboleoContract {
         this._events.Terminated.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Terminated, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.Terminated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -124,7 +142,12 @@ class SymboleoContract {
         this._events.Rescinded.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Rescinded, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.Rescinded,
+
+            this,
+          ),
         );
         break;
       default:
@@ -147,7 +170,12 @@ class SymboleoContract {
         this._events.Suspended.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Suspended, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.Suspended,
+
+            this,
+          ),
         );
         break;
       default:
@@ -170,7 +198,12 @@ class SymboleoContract {
         this._events.FulfilledObligations.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.FulfilledObligations, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.FulfilledObligations,
+
+            this,
+          ),
         );
 
         break;
@@ -193,7 +226,12 @@ class SymboleoContract {
         this._events.Resumed.happen();
         Events.emitEvent(
           this,
-          new InternalEvent(InternalEventSource.contract, InternalEventType.contract.Resumed, this),
+          new InternalEvent(
+            InternalEventSource.contract,
+            InternalEventType.contract.Resumed,
+
+            this,
+          ),
         );
         break;
       default:
@@ -253,7 +291,8 @@ class SymboleoContract {
 
   setActiveState(aStatusActive) {
     this.activeState = aStatusActive;
-    if (this.state !== ContractStates.Active && aStatusActive !== ContractActiveStates.Null) {
+    if (this.state !== ContractStates.Active
+      && aStatusActive !== ContractActiveStates.Null) {
       this.setState(ContractStates.Active);
     }
 
@@ -402,7 +441,8 @@ class SymboleoContract {
   }
 
   isNumberOfLegalPositionsValid() {
-    const isValid = this.numberOfLegalPositions() >= this.minimumNumberOfLegalPositions();
+    const isValid = this.numberOfLegalPositions()
+    >= this.minimumNumberOfLegalPositions();
     return isValid;
   }
 
@@ -416,9 +456,11 @@ class SymboleoContract {
       return false;
     }
     const existingContract = aLegalPosition.getContract();
-    const isNewContract = existingContract != null && !this.equals(existingContract);
+    const isNewContract = existingContract != null
+    && !this.equals(existingContract);
 
-    if (isNewContract && existingContract.numberOfLegalPositions() <= this.minimumNumberOfLegalPositions()) {
+    if (isNewContract && existingContract.numberOfLegalPositions()
+     <= this.minimumNumberOfLegalPositions()) {
       return wasAdded;
     }
     if (isNewContract) {
@@ -461,9 +503,11 @@ class SymboleoContract {
       return false;
     }
     const existingContract = aRole.getContract();
-    const isNewContract = existingContract != null && !this.equals(existingContract);
+    const isNewContract = existingContract != null
+    && !this.equals(existingContract);
 
-    if (isNewContract && existingContract.numberOfRoles() <= this.minimumNumberOfRoles()) {
+    if (isNewContract
+      && existingContract.numberOfRoles() <= this.minimumNumberOfRoles()) {
       return wasAdded;
     }
     if (isNewContract) {
@@ -504,9 +548,11 @@ class SymboleoContract {
     let wasAdded = false;
     if (this._parties.some((o) => o.equals(aParty))) { return false; }
     const existingContract = aParty.getContract();
-    const isNewContract = existingContract != null && !this.equals(existingContract);
+    const isNewContract = existingContract != null
+    && !this.equals(existingContract);
 
-    if (isNewContract && existingContract.numberOfParties() <= this.minimumNumberOfParties()) {
+    if (isNewContract
+      && existingContract.numberOfParties() <= this.minimumNumberOfParties()) {
       return wasAdded;
     }
     if (isNewContract) {
@@ -544,7 +590,8 @@ class SymboleoContract {
       return false;
     }
     const existingContract = aAsset.getContract();
-    const isNewContract = existingContract != null && !this.equals(existingContract);
+    const isNewContract = existingContract != null
+    && !this.equals(existingContract);
     if (isNewContract) {
       aAsset.setContract(this);
     } else {
@@ -634,7 +681,8 @@ class SymboleoContract {
     let wasSet = false;
     const existingParentContract = this._parentContract;
     this._parentContract = aParentContract;
-    if (existingParentContract != null && !existingParentContract.equals(aParentContract)) {
+    if (existingParentContract != null
+      && !existingParentContract.equals(aParentContract)) {
       existingParentContract.removeSubContract(this);
     }
     if (aParentContract != null) {

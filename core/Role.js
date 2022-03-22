@@ -141,7 +141,8 @@ class Role {
           existingParty = aParty;
           wasSet = true;
         }
-      } else if (existingParty.minimumNumberOfRoles() < existingParty.numberOfRoles()) {
+      } else if (existingParty.minimumNumberOfRoles()
+      < existingParty.numberOfRoles()) {
         existingParty.removeRole(this);
         aParty.addRole(this);
         existingParty = aParty;

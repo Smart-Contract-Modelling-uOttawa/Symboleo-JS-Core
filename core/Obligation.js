@@ -1,7 +1,10 @@
 const { LegalPosition } = require('./LegalPosition.js');
 const { Event } = require('./Event.js');
 const { Events } = require('../Events.js');
-const { InternalEvent, InternalEventSource, InternalEventType } = require('./InternalEvents.js');
+const {
+  InternalEvent,
+  InternalEventSource, InternalEventType,
+} = require('./InternalEvents.js');
 
 const ObligationState = {
   Start: 'Start',
@@ -32,7 +35,8 @@ class Obligation extends LegalPosition {
   }
 
   isInEffect() {
-    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.InEffect;
+    return this.state === ObligationState.Active
+    && this.activeState === ObligationActiveState.InEffect;
   }
 
   isCreated() {
@@ -40,7 +44,8 @@ class Obligation extends LegalPosition {
   }
 
   isSuspended() {
-    return this.state === ObligationState.Active && this.activeState === ObligationActiveState.Suspension;
+    return this.state === ObligationState.Active
+     && this.activeState === ObligationActiveState.Suspension;
   }
 
   isFulfilled() {
@@ -71,7 +76,12 @@ class Obligation extends LegalPosition {
         this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Activated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -93,7 +103,12 @@ class Obligation extends LegalPosition {
         this._events.Triggered.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Triggered, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Triggered,
+
+            this,
+          ),
         );
         break;
       default:
@@ -166,7 +181,12 @@ class Obligation extends LegalPosition {
         this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Activated, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Activated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -258,7 +278,11 @@ class Obligation extends LegalPosition {
         this._events.Suspended.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Suspended, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Suspended,
+            this,
+          ),
         );
 
         break;
@@ -282,7 +306,12 @@ class Obligation extends LegalPosition {
         this._events.Resumed.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Resumed, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Resumed,
+
+            this,
+          ),
         );
         break;
       default:
@@ -338,7 +367,8 @@ class Obligation extends LegalPosition {
 
   setActiveState(aStatusActive) {
     this.activeState = aStatusActive;
-    if (this.state !== ObligationState.Active && aStatusActive !== ObligationActiveState.Null) {
+    if (this.state !== ObligationState.Active
+      && aStatusActive !== ObligationActiveState.Null) {
       this.setState(ObligationState.Active);
     }
   }

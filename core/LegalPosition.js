@@ -211,7 +211,8 @@ class LegalPosition {
     }
 
     if (this.contract != null
-      && this.contract.numberOfLegalPositions() <= SymboleoContract.minimumNumberOfLegalPositions()) {
+      && this.contract.numberOfLegalPositions()
+      <= SymboleoContract.minimumNumberOfLegalPositions()) {
       return wasSet;
     }
 
@@ -351,7 +352,8 @@ class LegalPosition {
   }
 
   equals(obj) {
-    return obj.name != null && obj instanceof LegalPosition && obj.name === this.name;
+    return obj.name != null
+      && obj instanceof LegalPosition && obj.name === this.name;
   }
 }
 

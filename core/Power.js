@@ -1,7 +1,10 @@
 const { LegalPosition } = require('./LegalPosition.js');
 const { Event } = require('./Event.js');
 const { Events } = require('../Events.js');
-const { InternalEvent, InternalEventSource, InternalEventType } = require('./InternalEvents.js');
+const {
+  InternalEvent, InternalEventSource,
+  InternalEventType,
+} = require('./InternalEvents.js');
 
 const PowerState = {
   Start: 'Start',
@@ -26,7 +29,8 @@ class Power extends LegalPosition {
   }
 
   isInEffect() {
-    return this.state === PowerState.Active && this.activeState === PowerStateActive.InEffect;
+    return this.state === PowerState.Active
+    && this.activeState === PowerStateActive.InEffect;
   }
 
   isActive() {
@@ -46,7 +50,8 @@ class Power extends LegalPosition {
   }
 
   isSuspended() {
-    return this.state === PowerState.Active && this.activeState === PowerStateActive.Suspension;
+    return this.state === PowerState.Active
+    && this.activeState === PowerStateActive.Suspension;
   }
 
   trigerredUnconditional() {
@@ -61,7 +66,12 @@ class Power extends LegalPosition {
         this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Activated, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Activated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -83,7 +93,12 @@ class Power extends LegalPosition {
         this._events.Triggered.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Triggered, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Triggered,
+
+            this,
+          ),
         );
         break;
       default:
@@ -108,7 +123,12 @@ class Power extends LegalPosition {
         this._events.Activated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Activated, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Activated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -131,7 +151,12 @@ class Power extends LegalPosition {
         this._events.Terminated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Terminated, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Terminated,
+
+            this,
+          ),
         );
         break;
       default:
@@ -154,7 +179,12 @@ class Power extends LegalPosition {
         this._events.Exerted.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Exerted, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Exerted,
+
+            this,
+          ),
         );
         break;
       default:
@@ -178,7 +208,12 @@ class Power extends LegalPosition {
         this._events.Expired.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Expired, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Expired,
+
+            this,
+          ),
         );
         break;
       default: break;
@@ -192,7 +227,12 @@ class Power extends LegalPosition {
         this._events.Expired.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Expired, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Expired,
+
+            this,
+          ),
         );
         break;
       default:
@@ -215,7 +255,12 @@ class Power extends LegalPosition {
         this._events.Suspended.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Suspended, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Suspended,
+
+            this,
+          ),
         );
         break;
       default:
@@ -238,7 +283,12 @@ class Power extends LegalPosition {
         this._events.Resumed.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.power, InternalEventType.power.Resumed, this),
+          new InternalEvent(
+            InternalEventSource.power,
+            InternalEventType.power.Resumed,
+
+            this,
+          ),
         );
         break;
       default:
@@ -291,7 +341,8 @@ class Power extends LegalPosition {
 
   setActiveState(aPowerStateActive) {
     this.activeState = aPowerStateActive;
-    if (this.state !== PowerState.Active && aPowerStateActive !== PowerStateActive.Null) {
+    if (this.state !== PowerState.Active
+      && aPowerStateActive !== PowerStateActive.Null) {
       this.setState(PowerState.Active);
     }
   }
