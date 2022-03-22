@@ -3,7 +3,7 @@
 class Contract {
   1 <@>- 2..* LegalPosition legalPositions;
   1 <@>- 2..* Role roles;
-  1 -- 2..* Party parties;
+  1..* -- 2..* Party parties;
   1 -- 0..* Asset assets;
   0..1 parentContract -- 0..* Contract subContracts;
   0..1 terminated -- 0..* Power terminators;
