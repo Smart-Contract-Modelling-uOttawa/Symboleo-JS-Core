@@ -15,7 +15,7 @@ const Predicates = {
     if (typeof arg2 === 'string' || arg2 instanceof String) {
       return Predicates.happensWithinSituation(e, arg1, arg2);
     }
-    return Predicates.happensWithinDate(e, arg1, arg2);
+    return Predicates.happensWithinInterval(e, arg1, arg2);
   },
 
   happensWithinSituation(e, object, state) {
@@ -71,7 +71,7 @@ const Predicates = {
     }
   },
 
-  happensWithinDate(e, start, end) {
+  happensWithinInterval(e, start, end) {
     return e.hasHappened() && e._timestamp >= start && e._timestamp <= end;
   },
 };
