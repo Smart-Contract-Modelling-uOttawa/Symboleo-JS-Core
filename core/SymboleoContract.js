@@ -1,4 +1,5 @@
 const { Event } = require('./Event.js');
+const { Party } = require('./Party.js');
 const { Events } = require('../Events.js');
 const {
   InternalEvent,
@@ -547,26 +548,23 @@ class SymboleoContract {
   addParty(aParty) {
     let wasAdded = false;
     if (this._parties.some((o) => o.equals(aParty))) { return false; }
-    const existingContract = aParty.getContract();
-    const isNewContract = existingContract != null
-    && !this.equals(existingContract);
-
-    if (isNewContract
-      && existingContract.numberOfParties() <= this.minimumNumberOfParties()) {
-      return wasAdded;
-    }
-    if (isNewContract) {
-      aParty.setContract(this);
+    this._parties.push(aParty);
+    if (aParty.indexOfContract(this) !== -1) {
+      wasAdded = true;
     } else {
-      this._parties.push(aParty);
+      wasAdded = aParty.addContract(this);
+      if (!wasAdded) {
+        const index = this._parties.findIndex((o) => o.equals(aParty));
+        this._parties.splice(index, 1);
+      }
     }
-    wasAdded = true;
+
     return wasAdded;
   }
 
   removeParty(aParty) {
     let wasRemoved = false;
-    if (this.equals(aParty.getContract())) {
+    if (!this._parties.some((o) => o.equals(aParty))) {
       return wasRemoved;
     }
 
@@ -574,9 +572,16 @@ class SymboleoContract {
       return wasRemoved;
     }
 
-    const index = this._parties.findIndex((o) => o.equals(aParty));
-    this._parties.splice(index, 1);
-    wasRemoved = true;
+    const oldIndex = this._parties.findIndex((o) => o.equals(aParty));
+    this._parties.splice(oldIndex, 1);
+    if (aParty.indexOfContract(this) === -1) {
+      wasRemoved = true;
+    } else {
+      wasRemoved = aParty.removeContract(this);
+      if (!wasRemoved) {
+        this._parties.splice(oldIndex, 0, aParty);
+      }
+    }
     return wasRemoved;
   }
 
@@ -707,9 +712,12 @@ class SymboleoContract {
       this._roles.splice(index, 1);
     }
 
-    for (let i = this._parties.length; i > 0; i--) {
-      const aParty = this._parties[i - 1];
-      aParty.delete();
+    for (const aParty of this._parties) {
+      if (aParty.numberOfContracts() <= Party.minimumNumberOfContracts()) {
+        aParty.delete();
+      } else {
+        aParty.removeContract(this);
+      }
     }
     for (let i = this._assets.length; i > 0; i--) {
       const aAsset = this._assets[i - 1];

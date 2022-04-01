@@ -1,17 +1,22 @@
 const { SymboleoContract } = require('./SymboleoContract.js');
 
 class Party {
-  constructor(id, aContract, allRoles, assets = [], performerOf = [], liableOf = [], rightHolderOf = []) {
+  constructor(
+    id,
+    allRoles,
+    contracts = [],
+    assets = [],
+    performerOf = [],
+    liableOf = [],
+    rightHolderOf = [],
+  ) {
     this._id = id;
     this._assets = assets;
     this._performerOf = performerOf;
     this._liableOf = liableOf;
     this._rightHolderOf = rightHolderOf;
+    this._contracts = contracts;
 
-    const didAddContract = this.setContract(aContract);
-    if (!didAddContract) {
-      throw new Error('Unable to create party due to contract.');
-    }
     this._roles = [];
     const didAddRoles = this.setRoles(allRoles);
     if (!didAddRoles) {
@@ -19,8 +24,20 @@ class Party {
     }
   }
 
-  getContract() {
-    return this._contract;
+  getContract(index) {
+    return this._contracts[index];
+  }
+
+  getContracts() {
+    return this._contracts;
+  }
+
+  numberOfContracts() {
+    return this._contracts.length;
+  }
+
+  hasContracts() {
+    return this._contracts.length > 0;
   }
 
   getRole(index) {
@@ -103,6 +120,11 @@ class Party {
     return this._rightHolderOf.length > 0;
   }
 
+  indexOfContract(aContract) {
+    const index = this._contracts.findIndex((o) => o.equals(aContract));
+    return index;
+  }
+
   indexOfAsset(aAsset) {
     const index = this._assets.findIndex((o) => o.equals(aAsset));
     return index;
@@ -123,29 +145,53 @@ class Party {
     return index;
   }
 
-  setContract(aContract) {
-    let wasSet = false;
-    if (aContract == null) {
-      return wasSet;
-    }
+  static minimumNumberOfContracts() {
+    return 1;
+  }
 
-    if (this._contract != null
-      && this._contract.numberOfParties() <= SymboleoContract.minimumNumberOfParties()) {
-      return wasSet;
-    }
+  isNumberOfContractsValid() {
+    const isValid = this.numberOfContracts() >= this.minimumNumberOfContracts();
+    return isValid;
+  }
 
-    const existingContract = this._contract;
-    this._contract = aContract;
-    if (existingContract != null && !existingContract.equals(aContract)) {
-      const didRemove = existingContract.removeParty(this);
-      if (!didRemove) {
-        this._contract = existingContract;
-        return wasSet;
+  addContract(aContract) {
+    let wasAdded = false;
+    if (this._contracts.some((o) => o.equals(aContract))) { return false; }
+    this._contracts.push(aContract);
+
+    if (aContract.indexOfParty(this) !== -1) {
+      wasAdded = true;
+    } else {
+      wasAdded = aContract.addParty(this);
+      if (!wasAdded) {
+        const index = this._contracts.findIndex((o) => o.equals(aContract));
+        this._contracts.splice(index, 1);
       }
     }
-    this._contract.addParty(this);
-    wasSet = true;
-    return wasSet;
+    return wasAdded;
+  }
+
+  removeContract(aContract) {
+    let wasRemoved = false;
+    if (!this._contracts.some((o) => o.equals(aContract))) {
+      return wasRemoved;
+    }
+
+    if (this.numberOfContracts() <= this.minimumNumberOfContracts()) {
+      return wasRemoved;
+    }
+
+    const oldIndex = this._contracts.findIndex(aContract);
+    this._contracts.splice(oldIndex, 1);
+    if (aContract.indexOfParty(this) === -1) {
+      wasRemoved = true;
+    } else {
+      wasRemoved = aContract.removeParty(this);
+      if (!wasRemoved) {
+        this._contracts.splice(oldIndex, 0, aContract);
+      }
+    }
+    return wasRemoved;
   }
 
   static minimumNumberOfRoles() {
@@ -158,7 +204,8 @@ class Party {
       return false;
     }
     const existingParty = aRole.getParty();
-    if (existingParty != null && existingParty.numberOfRoles() <= this.minimumNumberOfRoles()) {
+    if (existingParty != null
+      && existingParty.numberOfRoles() <= this.minimumNumberOfRoles()) {
       return wasAdded;
     }
     if (existingParty != null) {
@@ -173,7 +220,8 @@ class Party {
 
   removeRole(aRole) {
     let wasRemoved = false;
-    if (this._roles.some((o) => o.equals(aRole)) && this.numberOfRoles() > this.minimumNumberOfRoles()) {
+    if (this._roles.some((o) => o.equals(aRole))
+      && this.numberOfRoles() > this.minimumNumberOfRoles()) {
       const index = this._roles.findIndex((o) => o.equals(aRole));
       this._roles.splice(index, 1);
       this.setParty(aRole, null);
@@ -397,10 +445,12 @@ class Party {
   }
 
   delete() {
-    const placeholderContract = this._contract;
-    this.contract = null;
-    if (placeholderContract != null) {
-      placeholderContract.removeParty(this);
+    for (const aContract of this._contracts) {
+      if (aContract.numberOfParties() <= SymboleoContract.minimumNumberOfParties()) {
+        aContract.delete();
+      } else {
+        aContract.removeParty(this);
+      }
     }
     for (const aRole of this._roles) {
       this.setParty(aRole, null);

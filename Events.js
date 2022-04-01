@@ -24,9 +24,11 @@ module.exports.Events = {
       return false;
     }
     if (a.source === b.source && a.type === b.type) {
-      if (a.source === InternalEventSource.obligation || a.source === InternalEventSource.power) {
+      if (a.source === InternalEventSource.obligation
+        || a.source === InternalEventSource.power) {
         return a.object.name === b.object.name;
-      } if (a.source === InternalEventSource.contract || a.source === InternalEventSource.contractEvent) {
+      } if (a.source === InternalEventSource.contract
+        || a.source === InternalEventSource.contractEvent) {
         return a.object._name === b.object._name;
       }
       return false;
