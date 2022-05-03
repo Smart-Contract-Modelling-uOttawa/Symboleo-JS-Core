@@ -75,6 +75,12 @@ class SymboleoContract {
     return this.state === ContractStates.SuccessfulTermination;
   }
 
+  // checks that is in an end state
+  isFinished() {
+    return this.state === ContractStates.SuccessfulTermination
+      || this.state === ContractStates.UnsuccessfulTermination;
+  }
+
   activated() {
     let wasEventProcessed = false;
 

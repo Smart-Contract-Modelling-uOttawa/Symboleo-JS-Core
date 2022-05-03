@@ -64,6 +64,14 @@ class Obligation extends LegalPosition {
     return this.state === ObligationState.Discharge;
   }
 
+  // checks that is in an end state
+  isFinished() {
+    return this.state === ObligationState.Violation
+      || this.state === ObligationState.Discharge
+      || this.state === ObligationState.UnsuccessfulTermination
+      || this.state === ObligationState.Fulfillment;
+  }
+
   trigerredUnconditional() {
     let wasEventProcessed = false;
 
@@ -255,7 +263,11 @@ class Obligation extends LegalPosition {
         this._events.Violated.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Violated, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Violated,
+            this,
+          ),
         );
         break;
       default:

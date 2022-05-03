@@ -1,24 +1,41 @@
 const Predicates = {
   happens(e) {
-    return e != null && e.hasHappened();
+    return e == null ? false : e.hasHappened();
   },
 
-  happensBefore(e, ts) {
-    return Predicates.happens(e) && e._timestamp < ts;
+  weakHappensBefore(e, ts) {
+    if (e == null) {
+      return false;
+    }
+    if (Predicates.happens(e) && ts == null) {
+      return true;
+    }
+    return Predicates.happens(e) && e._timestamp <= ts;
   },
 
-  happensAfter(e, ts) {
-    return Predicates.happens(e) && e._timestamp > ts;
+  strongHappensBefore(e, ts) {
+    if (e == null || ts == null) {
+      return false;
+    }
+    return Predicates.happens(e) && e._timestamp <= ts;
   },
 
   happensWithin(e, arg1, arg2) {
-    if (typeof arg2 === 'string' || arg2 instanceof String) {
+    if (e == null) {
+      return false;
+    }
+    if ((typeof arg2 === 'string' || arg2 instanceof String)
+      && (arg2.indexOf('Power.') !== -1 || arg2.indexOf('Obligation.') !== -1
+      || arg2.indexOf('Contract.') !== -1)) {
       return Predicates.happensWithinSituation(e, arg1, arg2);
     }
     return Predicates.happensWithinInterval(e, arg1, arg2);
   },
 
   happensWithinSituation(e, object, state) {
+    if (object == null) {
+      return false;
+    }
     switch (state) {
       case 'Power.Create':
         return e.hasHappened() && object.isCreate();
@@ -72,6 +89,12 @@ const Predicates = {
   },
 
   happensWithinInterval(e, start, end) {
+    if (start == null) {
+      return false;
+    }
+    if (end == null) {
+      return false;
+    }
     return e.hasHappened() && e._timestamp >= start && e._timestamp <= end;
   },
 };

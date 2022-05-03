@@ -1,6 +1,6 @@
 {
   "name": "symboleo-js-core",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "symboleo-js-core",
   "exports": "./index.js",
   "scripts": {

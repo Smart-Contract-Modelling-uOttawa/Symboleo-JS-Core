@@ -715,16 +715,30 @@ describe('Predicates', () => {
     e1._timestamp = d.toISOString();
     const d2 = new Date(d);
     d2.setUTCMinutes(d2.getUTCMinutes() + 5);
-    expect(Predicates.happensBefore(e1, d2.toISOString())).to.equal(true);
+    expect(Predicates.weakHappensBefore(e1, d2.toISOString())).to.equal(true);
   });
 
-  it('should happen after timestamp', () => {
+  it('should happen before undefined', () => {
+    const e1 = new Event();
+    e1.happen();
+    e1._timestamp = d.toISOString();
+    expect(Predicates.weakHappensBefore(e1)).to.equal(true);
+  });
+
+  it('should happen before timestamp', () => {
     const e1 = new Event();
     e1.happen();
     e1._timestamp = d.toISOString();
     const d2 = new Date(d);
-    d2.setUTCMinutes(d2.getUTCMinutes() - 5);
-    expect(Predicates.happensAfter(e1, d2.toISOString())).to.equal(true);
+    d2.setUTCMinutes(d2.getUTCMinutes() + 5);
+    expect(Predicates.strongHappensBefore(e1, d2.toISOString())).to.equal(true);
+  });
+
+  it('should return false strongHappensBefore on undefined', () => {
+    const e1 = new Event();
+    e1.happen();
+    e1._timestamp = d.toISOString();
+    expect(Predicates.strongHappensBefore(e1)).to.equal(false);
   });
 
   it('should happen within timestamps', () => {
@@ -735,7 +749,7 @@ describe('Predicates', () => {
     const d3 = new Date(d);
     d2.setUTCMinutes(d2.getUTCMinutes() - 5);
     d3.setUTCMinutes(d3.getUTCMinutes() + 5);
-    expect(Predicates.happensAfter(e1, d2.toISOString(), d3.toISOString())).to.equal(true);
+    expect(Predicates.happensWithin(e1, d2.toISOString(), d3.toISOString())).to.equal(true);
   });
 
   it('should happen within situation', () => {

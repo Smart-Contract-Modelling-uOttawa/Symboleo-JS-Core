@@ -54,6 +54,12 @@ class Power extends LegalPosition {
     && this.activeState === PowerStateActive.Suspension;
   }
 
+  // checks that is in an end state
+  isFinished() {
+    return this.state === PowerState.SuccessfulTermination
+      || this.state === PowerState.UnsuccessfulTermination;
+  }
+
   trigerredUnconditional() {
     let wasEventProcessed = false;
 
