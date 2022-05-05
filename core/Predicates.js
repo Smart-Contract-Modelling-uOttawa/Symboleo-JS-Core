@@ -93,7 +93,7 @@ const Predicates = {
       return false;
     }
     if (end == null) {
-      return false;
+      return e.hasHappened() && e._timestamp >= start;
     }
     return e.hasHappened() && e._timestamp >= start && e._timestamp <= end;
   },
