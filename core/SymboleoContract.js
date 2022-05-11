@@ -7,14 +7,14 @@ const {
   InternalEventType,
 } = require('./InternalEvents.js');
 
-const ContractStates = {
+const ContractState = {
   Form: 'Form',
   Active: 'Active',
   SuccessfulTermination: 'SuccessfulTermination',
   UnsuccessfulTermination: 'UnsuccessfulTermination',
 };
 
-const ContractActiveStates = {
+const ContractActiveState = {
   Null: 'Null',
   InEffect: 'InEffect',
   Suspension: 'Suspension',
@@ -27,8 +27,8 @@ class SymboleoContract {
     const now = new Date();
     // eslint-disable-next-line max-len
     this.id = `${name}_${now.getUTCFullYear()}${now.getUTCMonth()}${now.getUTCDate()}${now.getUTCHours()}`;
-    this.setActiveState(ContractActiveStates.Null);
-    this.setState(ContractStates.Form);
+    this.setActiveState(ContractActiveState.Null);
+    this.setState(ContractState.Form);
     this._events = {};
     this._roles = [];
     this._parties = [];
@@ -40,45 +40,45 @@ class SymboleoContract {
   }
 
   isInEffect() {
-    return this.state === ContractStates.Active
-    && this.activeState === ContractActiveStates.InEffect;
+    return this.state === ContractState.Active
+    && this.activeState === ContractActiveState.InEffect;
   }
 
   isActive() {
-    return this.state === ContractStates.Active;
+    return this.state === ContractState.Active;
   }
 
   isForm() {
-    return this.state === ContractStates.Form;
+    return this.state === ContractState.Form;
   }
 
   isUnassign() {
-    return this.state === ContractStates.Active
-    && this.activeState === ContractActiveStates.Unassign;
+    return this.state === ContractState.Active
+    && this.activeState === ContractActiveState.Unassign;
   }
 
   isRescission() {
-    return this.state === ContractStates.Active
-    && this.activeState === ContractActiveStates.Rescission;
+    return this.state === ContractState.Active
+    && this.activeState === ContractActiveState.Rescission;
   }
 
   isSuspended() {
-    return this.state === ContractStates.Active
-    && this.activeState === ContractActiveStates.Suspension;
+    return this.state === ContractState.Active
+    && this.activeState === ContractActiveState.Suspension;
   }
 
   isUnsuccessfulTermination() {
-    return this.state === ContractStates.UnsuccessfulTermination;
+    return this.state === ContractState.UnsuccessfulTermination;
   }
 
   isSuccessfulTermination() {
-    return this.state === ContractStates.SuccessfulTermination;
+    return this.state === ContractState.SuccessfulTermination;
   }
 
   // checks that is in an end state
   isFinished() {
-    return this.state === ContractStates.SuccessfulTermination
-      || this.state === ContractStates.UnsuccessfulTermination;
+    return this.state === ContractState.SuccessfulTermination
+      || this.state === ContractState.UnsuccessfulTermination;
   }
 
   activated() {
@@ -86,8 +86,8 @@ class SymboleoContract {
 
     const aStatus = this.state;
     switch (aStatus) {
-      case ContractStates.Form:
-        this.setActiveState(ContractActiveStates.InEffect);
+      case ContractState.Form:
+        this.setActiveState(ContractActiveState.InEffect);
         wasEventProcessed = true;
         this._events.Activated = new Event();
         this._events.Activated.happen();
@@ -113,9 +113,9 @@ class SymboleoContract {
 
     const aStatus = this.state;
     switch (aStatus) {
-      case ContractStates.Active:
+      case ContractState.Active:
         this.exitStatus();
-        this.setState(ContractStates.UnsuccessfulTermination);
+        this.setState(ContractState.UnsuccessfulTermination);
         wasEventProcessed = true;
         this._events.Terminated = new Event();
         this._events.Terminated.happen();
@@ -141,9 +141,9 @@ class SymboleoContract {
 
     const aStatusActive = this.activeState;
     switch (aStatusActive) {
-      case ContractActiveStates.InEffect:
+      case ContractActiveState.InEffect:
         this.exitStatusActive();
-        this.setActiveState(ContractActiveStates.Rescission);
+        this.setActiveState(ContractActiveState.Rescission);
         wasEventProcessed = true;
         this._events.Rescinded = new Event();
         this._events.Rescinded.happen();
@@ -169,9 +169,9 @@ class SymboleoContract {
 
     const aStatusActive = this.activeState;
     switch (aStatusActive) {
-      case ContractActiveStates.InEffect:
+      case ContractActiveState.InEffect:
         this.exitStatusActive();
-        this.setActiveState(ContractActiveStates.Suspension);
+        this.setActiveState(ContractActiveState.Suspension);
         wasEventProcessed = true;
         this._events.Suspended = new Event();
         this._events.Suspended.happen();
@@ -197,9 +197,9 @@ class SymboleoContract {
 
     const aStatusActive = this.activeState;
     switch (aStatusActive) {
-      case ContractActiveStates.InEffect:
+      case ContractActiveState.InEffect:
         this.exitStatus();
-        this.setState(ContractStates.SuccessfulTermination);
+        this.setState(ContractState.SuccessfulTermination);
         wasEventProcessed = true;
         this._events.FulfilledObligations = new Event();
         this._events.FulfilledObligations.happen();
@@ -225,9 +225,9 @@ class SymboleoContract {
 
     const aStatusActive = this.activeState;
     switch (aStatusActive) {
-      case ContractActiveStates.Suspension:
+      case ContractActiveState.Suspension:
         this.exitStatusActive();
-        this.setActiveState(ContractActiveStates.InEffect);
+        this.setActiveState(ContractActiveState.InEffect);
         wasEventProcessed = true;
         this._events.Resumed = new Event();
         this._events.Resumed.happen();
@@ -250,7 +250,7 @@ class SymboleoContract {
 
   exitStatus() {
     switch (this.state) {
-      case ContractStates.Active:
+      case ContractState.Active:
         this.exitStatusActive();
         break;
       default: break;
@@ -261,15 +261,15 @@ class SymboleoContract {
     this.state = aStatus;
     // entry actions and do activities
     switch (this.state) {
-      case ContractStates.Active:
-        if (this.activeState === ContractActiveStates.Null) {
-          this.setActiveState(ContractActiveStates.InEffect);
+      case ContractState.Active:
+        if (this.activeState === ContractActiveState.Null) {
+          this.setActiveState(ContractActiveState.InEffect);
         }
         break;
-      case ContractStates.SuccessfulTermination:
+      case ContractState.SuccessfulTermination:
         // delete();
         break;
-      case ContractStates.UnsuccessfulTermination:
+      case ContractState.UnsuccessfulTermination:
         // delete();
         break;
       default: break;
@@ -278,19 +278,19 @@ class SymboleoContract {
 
   exitStatusActive() {
     switch (this.activeState) {
-      case ContractActiveStates.InEffect:
-        this.setActiveState(ContractActiveStates.Null);
+      case ContractActiveState.InEffect:
+        this.setActiveState(ContractActiveState.Null);
         break;
-      case ContractActiveStates.Suspension:
+      case ContractActiveState.Suspension:
         // delete();
-        this.setActiveState(ContractActiveStates.Null);
+        this.setActiveState(ContractActiveState.Null);
         // delete();
         break;
-      case ContractActiveStates.Unassign:
-        this.setActiveState(ContractActiveStates.Null);
+      case ContractActiveState.Unassign:
+        this.setActiveState(ContractActiveState.Null);
         break;
-      case ContractActiveStates.Rescission:
-        this.setActiveState(ContractActiveStates.Null);
+      case ContractActiveState.Rescission:
+        this.setActiveState(ContractActiveState.Null);
         break;
       default: break;
     }
@@ -298,14 +298,14 @@ class SymboleoContract {
 
   setActiveState(aStatusActive) {
     this.activeState = aStatusActive;
-    if (this.state !== ContractStates.Active
-      && aStatusActive !== ContractActiveStates.Null) {
-      this.setState(ContractStates.Active);
+    if (this.state !== ContractState.Active
+      && aStatusActive !== ContractActiveState.Null) {
+      this.setState(ContractState.Active);
     }
 
     // entry actions and do activities
     switch (aStatusActive) {
-      case ContractActiveStates.Rescission:
+      case ContractActiveState.Rescission:
         // delete();
         break;
       default: break;
@@ -748,5 +748,5 @@ class SymboleoContract {
 }
 
 module.exports.SymboleoContract = SymboleoContract;
-module.exports.ContractStates = ContractStates;
-module.exports.ContractActiveStates = ContractActiveStates;
+module.exports.ContractState = ContractState;
+module.exports.ContractActiveState = ContractActiveState;

@@ -14,15 +14,15 @@ module.exports.Events = require('./Events.js').Events;
 
 module.exports.Power = power.Power;
 module.exports.PowerState = power.PowerState;
-module.exports.PowerStateActive = power.PowerStateActive;
+module.exports.PowerActiveState = power.PowerActiveState;
 
 module.exports.Obligation = obligation.Obligation;
 module.exports.ObligationState = obligation.ObligationState;
 module.exports.ObligationActiveState = obligation.ObligationActiveState;
 
 module.exports.SymboleoContract = symboleoContract.SymboleoContract;
-module.exports.ContractStates = symboleoContract.ContractStates;
-module.exports.ContractActiveStates = symboleoContract.ContractActiveStates;
+module.exports.ContractState = symboleoContract.ContractState;
+module.exports.ContractActiveState = symboleoContract.ContractActiveState;
 
 module.exports.InternalEvent = internalEvents.InternalEvent;
 module.exports.InternalEventSource = internalEvents.InternalEventSource;
