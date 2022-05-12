@@ -87,7 +87,6 @@ class Obligation extends LegalPosition {
           new InternalEvent(
             InternalEventSource.obligation,
             InternalEventType.obligation.Activated,
-
             this,
           ),
         );
@@ -114,7 +113,6 @@ class Obligation extends LegalPosition {
           new InternalEvent(
             InternalEventSource.obligation,
             InternalEventType.obligation.Triggered,
-
             this,
           ),
         );
@@ -138,7 +136,11 @@ class Obligation extends LegalPosition {
         this._events.Expired.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Expired, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Expired,
+            this,
+          ),
         );
         break;
       default:
@@ -164,7 +166,11 @@ class Obligation extends LegalPosition {
         this._events.Discharged.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Discharged, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Discharged,
+            this,
+          ),
         );
         break;
       default:
@@ -192,7 +198,6 @@ class Obligation extends LegalPosition {
           new InternalEvent(
             InternalEventSource.obligation,
             InternalEventType.obligation.Activated,
-
             this,
           ),
         );
@@ -204,7 +209,7 @@ class Obligation extends LegalPosition {
     return wasEventProcessed;
   }
 
-  terminated() {
+  terminated(ctx) {
     let wasEventProcessed = false;
 
     const aStatus = this.state;
@@ -215,10 +220,16 @@ class Obligation extends LegalPosition {
         wasEventProcessed = true;
         this._events.Terminated = new Event();
         this._events.Terminated.happen();
-        Events.emitEvent(
-          this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Terminated, this),
-        );
+        if (ctx == null || ctx.emitEvent !== false) {
+          Events.emitEvent(
+            this.contract,
+            new InternalEvent(
+              InternalEventSource.obligation,
+              InternalEventType.obligation.Terminated,
+              this,
+            ),
+          );
+        }
         break;
       default:
       // Other states do respond to this event
@@ -240,7 +251,11 @@ class Obligation extends LegalPosition {
         this._events.Fulfilled.happen();
         Events.emitEvent(
           this.contract,
-          new InternalEvent(InternalEventSource.obligation, InternalEventType.obligation.Fulfilled, this),
+          new InternalEvent(
+            InternalEventSource.obligation,
+            InternalEventType.obligation.Fulfilled,
+            this,
+          ),
         );
         break;
       default:
@@ -321,7 +336,6 @@ class Obligation extends LegalPosition {
           new InternalEvent(
             InternalEventSource.obligation,
             InternalEventType.obligation.Resumed,
-
             this,
           ),
         );

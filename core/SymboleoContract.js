@@ -96,7 +96,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.Activated,
-
             this,
           ),
         );
@@ -124,7 +123,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.Terminated,
-
             this,
           ),
         );
@@ -152,7 +150,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.Rescinded,
-
             this,
           ),
         );
@@ -180,7 +177,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.Suspended,
-
             this,
           ),
         );
@@ -208,7 +204,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.FulfilledObligations,
-
             this,
           ),
         );
@@ -236,7 +231,6 @@ class SymboleoContract {
           new InternalEvent(
             InternalEventSource.contract,
             InternalEventType.contract.Resumed,
-
             this,
           ),
         );

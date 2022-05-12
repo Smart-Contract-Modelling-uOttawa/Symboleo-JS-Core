@@ -20,7 +20,7 @@ describe('Power', () => {
   const power3 = new Power('power3', creditor, debtor, contract);
   const power4 = new Power('power4', creditor, debtor, contract);
   const power5 = new Power('power5', creditor, debtor, contract);
-  Events.init([], { terminateContract: () => {} });
+  Events.init([], { successfullyTerminateContract: () => {}, unsuccessfullyTerminateContract: () => {} });
   contract.activated();
 
   it('should be on start state after instantiation', () => {
@@ -190,7 +190,7 @@ describe('Obligation', () => {
   const o4 = new Obligation('obligation4', creditor, debtor, contract);
   const o5 = new Obligation('obligation5', creditor, debtor, contract);
   const o6 = new Obligation('obligation5', creditor, debtor, contract);
-  Events.init([], { terminateContract: () => {} });
+  Events.init([], { successfullyTerminateContract: () => {}, unsuccessfullyTerminateContract: () => {} });
   contract.activated();
 
   it('should be on start state after instantiation', () => {
@@ -465,7 +465,7 @@ describe('Contract', () => {
   const c2 = new SymboleoContract('test_contract2');
   const c3 = new SymboleoContract('test_contract3');
   const c4 = new SymboleoContract('test_contract4');
-  Events.init([], { terminateContract: () => {} });
+  Events.init([], { successfullyTerminateContract: () => {}, unsuccessfullyTerminateContract: () => {} });
 
   it('should be on form state after instantiation', () => {
     expect(c.isInEffect()).to.equal(false);
@@ -701,7 +701,7 @@ describe('Predicates', () => {
   const o2 = new Obligation('obligation2', creditor, debtor, contract);
   const o3 = new Obligation('obligation3', creditor, debtor, contract);
   const o4 = new Obligation('obligation4', creditor, debtor, contract);
-  Events.init([], { terminateContract: () => {} });
+  Events.init([], { successfullyTerminateContract: () => {}, unsuccessfullyTerminateContract: () => {} });
 
   it('should happen event', () => {
     const e1 = new Event();
@@ -857,7 +857,7 @@ describe('Events', () => {
 
     [[new InternalEvent(InternalEventSource.contractEvent, InternalEventType.contractEvent.Happened, e1)], () => { listenerCalled.w = true; }],
     [[new InternalEvent(InternalEventSource.contractEvent, InternalEventType.contractEvent.Happened, e2)], () => { listenerCalled.x = true; }],
-  ], { terminateContract: () => {} });
+  ], { successfullyTerminateContract: () => {}, unsuccessfullyTerminateContract: () => {} });
 
   it('should trigger events', () => {
     contract.activated();

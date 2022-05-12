@@ -102,7 +102,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Triggered,
-
             this,
           ),
         );
@@ -132,7 +131,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Activated,
-
             this,
           ),
         );
@@ -160,7 +158,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Terminated,
-
             this,
           ),
         );
@@ -188,7 +185,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Exerted,
-
             this,
           ),
         );
@@ -217,7 +213,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Expired,
-
             this,
           ),
         );
@@ -236,7 +231,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Expired,
-
             this,
           ),
         );
@@ -264,7 +258,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Suspended,
-
             this,
           ),
         );
@@ -292,7 +285,6 @@ class Power extends LegalPosition {
           new InternalEvent(
             InternalEventSource.power,
             InternalEventType.power.Resumed,
-
             this,
           ),
         );
