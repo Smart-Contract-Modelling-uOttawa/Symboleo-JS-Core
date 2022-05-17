@@ -3,6 +3,16 @@ const Predicates = {
     return e == null ? false : e.hasHappened();
   },
 
+  happensAfter(e, ts) {
+    if (e == null) {
+      return false;
+    }
+    if (ts == null) {
+      return false;
+    }
+    return Predicates.happens(e) && e._timestamp > ts;
+  },
+
   weakHappensBefore(e, ts) {
     if (e == null) {
       return false;
