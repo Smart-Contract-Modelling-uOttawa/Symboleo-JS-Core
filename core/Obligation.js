@@ -150,9 +150,9 @@ class Obligation extends LegalPosition {
 
     return wasEventProcessed;
   }
-// this && this._surviving !==true  is added to allow surviving obligation to change states when the contract is terminated
+// && this._surviving !==true is added for surviving obligations
   discharged() {
-    if (!this.contract.isInEffect() && this._surviving !==true ) {
+    if (!this.contract.isInEffect() && !(this._surviving ===true)) {
       return false;
     }
     let wasEventProcessed = false;
@@ -180,9 +180,9 @@ class Obligation extends LegalPosition {
 
     return wasEventProcessed;
   }
-// this && this._surviving !==true  is added to activate surviving obligation when the contract was terminated
+// && this._surviving !==true is added for surviving obligations
   activated() {
-    if (!this.contract.isInEffect() && this._surviving !==true ) {
+    if (!this.contract.isInEffect() && !(this._surviving ===true) ) {
       return false;
     }
     let wasEventProcessed = false;
@@ -243,6 +243,7 @@ class Obligation extends LegalPosition {
     let wasEventProcessed = false;
 
     const aStatusActive = this.activeState;
+    
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
         this.exitStatus();
