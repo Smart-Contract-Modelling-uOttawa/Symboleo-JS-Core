@@ -28,6 +28,7 @@ class Obligation extends LegalPosition {
     this.setState(ObligationState.Start);
     this._events = {};
     this._surviving = surviving;
+    
   }
 
   isViolated() {
@@ -149,9 +150,9 @@ class Obligation extends LegalPosition {
 
     return wasEventProcessed;
   }
-
+// && this._surviving !==true is added for surviving obligations
   discharged() {
-    if (!this.contract.isInEffect()) {
+    if (!this.contract.isInEffect() && !(this._surviving ===true)) {
       return false;
     }
     let wasEventProcessed = false;
@@ -179,9 +180,9 @@ class Obligation extends LegalPosition {
 
     return wasEventProcessed;
   }
-
+// && this._surviving !==true is added for surviving obligations
   activated() {
-    if (!this.contract.isInEffect()) {
+    if (!this.contract.isInEffect() && !(this._surviving ===true) ) {
       return false;
     }
     let wasEventProcessed = false;
@@ -242,6 +243,7 @@ class Obligation extends LegalPosition {
     let wasEventProcessed = false;
 
     const aStatusActive = this.activeState;
+    
     switch (aStatusActive) {
       case ObligationActiveState.InEffect:
         this.exitStatus();
